@@ -3,4 +3,5 @@ obj
 packages
 Libraries
 CompileLibrary.sh
-*.suo
+Telesharp.v12.suo
+Telesharp.csproj.user
