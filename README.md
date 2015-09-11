@@ -1,0 +1,1 @@
+Telesharp it sample API, what can help you to create a bots for Telegram.
