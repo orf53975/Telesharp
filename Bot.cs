@@ -43,6 +43,7 @@ namespace Telesharp
             {
                 Console.WriteLine("I don't know who i'm...");
                 Console.WriteLine("We can't continue");
+                return;
             }
             while (true)
             {
