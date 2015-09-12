@@ -116,6 +116,12 @@ namespace Telesharp.Common.Types
         public Video Video { get; set; }
 
         /// <summary>
+        ///     Message is a voice message, information about the file
+        /// </summary>
+        [JsonProperty(PropertyName = "voice")]
+        public Audio Voice { get; set; }
+
+        /// <summary>
         ///     Caption for the photo or video
         /// </summary>
         [JsonProperty(PropertyName = "caption")]
