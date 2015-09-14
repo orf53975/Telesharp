@@ -1,4 +1,3 @@
-using System;
 using Telesharp.Common.Types;
 
 namespace Telesharp.Common.Interfaces

@@ -1,4 +1,5 @@
 ﻿using System;
+using Telesharp.Common.TelesharpInterfaces;
 using Telesharp.Common.TelesharpTypes;
 
 namespace Telesharp

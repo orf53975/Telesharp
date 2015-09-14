@@ -143,7 +143,7 @@ namespace Telesharp
         {
             if (settings == null)
             {
-                throw new ArgumentNullException("Settings can't be null");
+                throw new ArgumentNullException("settings");
             }
             if (settings.Token == null)
             {
