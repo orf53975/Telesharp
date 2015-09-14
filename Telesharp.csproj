@@ -6,7 +6,7 @@
     <ProjectGuid>{CE7FA262-AF25-46A6-A756-C9DB2C17430C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <NoStandardLibraries>false</NoStandardLibraries>
-    <AssemblyName>ConsoleApplication</AssemblyName>
+    <AssemblyName>Telesharp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
@@ -20,7 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
@@ -63,6 +63,11 @@
     <Compile Include="Common\Interfaces\ICommand.cs" />
     <Compile Include="Common\JsonConverters\UnixDateTimeConverter.cs" />
     <Compile Include="Common\Methods.cs" />
+    <Compile Include="Common\TelesharpTypes\BotDiedEvent.cs" />
+    <Compile Include="Common\TelesharpTypes\BotExitType.cs" />
+    <Compile Include="Common\TelesharpTypes\BotRunnedEvent.cs" />
+    <Compile Include="Common\TelesharpTypes\BotRunnedState.cs" />
+    <Compile Include="Common\TelesharpTypes\LogType.cs" />
     <Compile Include="Common\Types\Audio.cs" />
     <Compile Include="Common\Types\Chat.cs" />
     <Compile Include="Common\Types\Contact.cs" />
@@ -76,6 +81,9 @@
     <Compile Include="Common\Types\Update.cs" />
     <Compile Include="Common\Types\User.cs" />
     <Compile Include="Common\Types\Video.cs" />
+    <Compile Include="Common\TelesharpInterfaces\ILogger.cs" />
+    <Compile Include="Telesharp.cs" />
+    <Compile Include="TelesharpLogger.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".git\COMMIT_EDITMSG" />

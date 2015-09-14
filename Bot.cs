@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Telesharp.Common;
 using Telesharp.Common.BotTypes;
 using Telesharp.Common.Interfaces;
+using Telesharp.Common.TelesharpTypes;
 using Telesharp.Common.Types;
 
 namespace Telesharp
@@ -19,7 +19,7 @@ namespace Telesharp
         {
             if (Settings.InfoToConsole)
             {
-                Console.WriteLine("Running bot...");
+                Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot...");
             }
             _botThread.Start();
         }
@@ -28,7 +28,7 @@ namespace Telesharp
         {
             if (Settings.InfoToConsole)
             {
-                Console.WriteLine("Running bot...");
+                Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot sync...");
             }
             Work();
         }
@@ -41,16 +41,18 @@ namespace Telesharp
             Me = Methods.GetMe();
             if (Me == null)
             {
-                Console.WriteLine("I don't know who i'm...");
-                Console.WriteLine("We can't continue");
+                Telesharp.Logger.Log(LogType.Error, Settings.Name, "Error, when get profile of bot");
+                Telesharp.Logger.Log(LogType.Info, Settings.Name, "Exit");
                 return;
             }
+            Telesharp.InvokeBotRunnedEvent(this, new BotRunnedEventArgs());
             while (true)
             {
                 var updates = Methods.GetUpdates();
                 if (updates == null) // If can't get updates
                 {
-                    continue;
+                    Telesharp.Logger.Log(LogType.Warning, Settings.Name, "Can't get updates!");
+                    continue; // We just continue
                 }
                 foreach (var upd in updates)
                 {
@@ -100,7 +102,8 @@ namespace Telesharp
                 }
                 catch (Exception exc)
                 {
-                    if (Settings.ExceptionsToConsole) Console.WriteLine("Exception when execute command async: \n" + exc);
+                    if (Settings.InfoToConsole) Telesharp.Logger.Log(LogType.Error, Settings.Name, exc.ToString());
+                    if (Settings.ExceptionsToConsole) Telesharp.Logger.Log(LogType.Error, Settings.Name, exc.ToString());
                 }
                 finally
                 {
@@ -118,7 +121,7 @@ namespace Telesharp
             }
             catch (Exception exc)
             {
-                if (Settings.ExceptionsToConsole) Console.WriteLine("Exception execute when command: \n" + exc);
+                if (Settings.ExceptionsToConsole) Telesharp.Logger.Log(LogType.Error, Settings.Name, "Exception, when execute command: \n" + exc);
             }
         }
 
@@ -150,9 +153,6 @@ namespace Telesharp
             Methods = new TelegramBotMethods(this);
             _botThread = new Thread(Work);
             Commands = new List<ICommand>();
-
-            Console.WriteLine("Please know: you're use a alpha version of Telesharp. It's not completed fully");
-            Console.WriteLine("--> DaFri Nochiterov, 2015");
         }
 
         #endregion
@@ -166,6 +166,8 @@ namespace Telesharp
         public BotSettings Settings { get; set; }
         public User Me { get; set; }
         public TelegramBotMethods Methods { get; set; }
+
+
 
         public bool BotAlive
         {

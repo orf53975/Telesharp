@@ -17,7 +17,7 @@ namespace Telesharp.Common.BotTypes
 
         private int _timeoutForRequest = 2000;
 
-        private bool _exceptionsToConsole = false;
+        private bool _exceptionsToConsole;
 
         private string _token = "";
 
@@ -26,6 +26,7 @@ namespace Telesharp.Common.BotTypes
             Token = token;
             CheckUpdatesInterval = updateInsterval;
             MaximumThreadsForCommands = -1;
+            _name = "bot" + (new Random()).Next(0, 999999);
         }
 
         public BotSettings(string token) : this(token, 1000)
@@ -142,6 +143,18 @@ namespace Telesharp.Common.BotTypes
                     throw new ArgumentOutOfRangeException("value");
                 }
                 _timeoutForRequest = value;
+            }
+        }
+
+
+        private string _name;
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (value == null) throw new ArgumentNullException("value");
+                _name = value;
             }
         }
     }

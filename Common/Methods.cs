@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using Newtonsoft.Json.Linq;
 using Telesharp.Common.BotTypes;
+using Telesharp.Common.TelesharpTypes;
 using Telesharp.Common.Types;
 
 namespace Telesharp.Common
@@ -24,10 +25,11 @@ namespace Telesharp.Common
         public string BuildUriForMethod(string method)
         {
             var uri = "http://api.telegram.org/bot" + Bot.Settings.Token + "/" + method;
-            if (Bot.Settings.InfoToConsole)
-            {
-                Console.WriteLine("Ready url: " + uri);
-            }
+            //if (Bot.Settings.InfoToConsole)
+            //{
+            //    Console.WriteLine("Ready url: " + uri);
+            //}
+            // Not useful
             return uri;
         }
 
@@ -453,9 +455,16 @@ namespace Telesharp.Common
                 new AdvancedWebClient(Bot.Settings.TimeoutForRequest).DownloadString(uri);
                 return true;
             }
-            catch
+            catch (Exception exc)
             {
-                // TODO: Logging
+                if (Bot.Settings.ResponsesToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Warning, "TRequest", "Failed to get response.");
+                    if (Bot.Settings.ExceptionsToConsole)
+                    {
+                        Telesharp.Logger.Log(LogType.Info, "TRequest", "Exception: \n" + exc);
+                    }
+                }
                 return false;
             }
         }
@@ -468,9 +477,16 @@ namespace Telesharp.Common
                 wc.SendGET(uri, parametrs);
                 return true;
             }
-            catch
+            catch (Exception exc)
             {
-                // TODO: Logging
+                if (Bot.Settings.ResponsesToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Warning, "TRequest", "Failed to get response.");
+                    if (Bot.Settings.ExceptionsToConsole)
+                    {
+                        Telesharp.Logger.Log(LogType.Info, "TRequest", "Exception: \n" + exc);
+                    }
+                }
                 return false;
             }
         }
@@ -482,9 +498,16 @@ namespace Telesharp.Common
                 var token = JToken.Parse(new AdvancedWebClient(Bot.Settings.TimeoutForRequest).DownloadString(uri));
                 return token["result"].ToObject<T>();
             }
-            catch
+            catch (Exception exc)
             {
-                // TODO: Logging 
+                if (Bot.Settings.ResponsesToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Warning, "TRequest", "Failed to get response.");
+                }
+                if (Bot.Settings.ExceptionsToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Info, "TRequest", "Exception: \n" + exc);
+                }
                 return default(T);
             }
         }
@@ -505,17 +528,35 @@ namespace Telesharp.Common
                     using (var reader = new StreamReader(exc.Response.GetResponseStream()))
                     {
                         var result = reader.ReadToEnd();
-                        Console.WriteLine(result);
+                        var token = JToken.Parse(result);
+                        if (token["ok"].ToObject<bool>() == false)
+                        {
+                            Telesharp.Logger.Log(LogType.Error, "Telegram sent failure code: \n" + result);
+                        }
                     }
                 }
-                catch (Exception)
+                catch (Exception exc2)
                 {
-                    // TODO: Logging 
+                    if (Bot.Settings.InfoToConsole)
+                    {
+                        Telesharp.Logger.Log(LogType.Warning, "TRequest", "Failed to parse failure code/text");
+                        if (Bot.Settings.ExceptionsToConsole)
+                        {
+                            Telesharp.Logger.Log(LogType.Error, "TRequest",  "Exception: \n" + exc2);
+                        }
+                    }
                 }
             }
-            catch
+            catch (Exception exc)
             {
-                // TODO: Logging
+                if (Bot.Settings.InfoToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Warning, "TRequest", "Exception when trying to get response or parse JSON");
+                    if (Bot.Settings.ExceptionsToConsole)
+                    {
+                        Telesharp.Logger.Log(LogType.Error, "TRequest", "Exception: \n" + exc);
+                    }
+                }
             }
             return default(T);
         }
