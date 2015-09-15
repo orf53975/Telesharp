@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net;
 
 namespace Telesharp.Common.BotTypes
 {
@@ -13,11 +14,13 @@ namespace Telesharp.Common.BotTypes
 
         private int _checkUpdatesInterval = 500;
 
+        private bool _exceptionsToConsole;
+
         private int _maxThreadsForCommands = -1;
 
-        private int _timeoutForRequest = 2000;
+        private string _name;
 
-        private bool _exceptionsToConsole;
+        private int _timeoutForRequest = 2000;
 
         private string _token = "";
 
@@ -146,8 +149,8 @@ namespace Telesharp.Common.BotTypes
             }
         }
 
+        public WebProxy Proxy { get; set; }
 
-        private string _name;
         public string Name
         {
             get { return _name; }

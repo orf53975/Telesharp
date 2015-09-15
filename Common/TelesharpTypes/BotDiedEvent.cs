@@ -2,7 +2,6 @@
 
 namespace Telesharp.Common.TelesharpTypes
 {
-
     public delegate void BotDiedEventHandler(object sender, BotDiedEventArgs e);
 
     public class BotDiedEventArgs : EventArgs
@@ -21,7 +20,6 @@ namespace Telesharp.Common.TelesharpTypes
         }
 
         public BotExitType ExitType { get; private set; }
-        public Exception Exception { get; private set;  }
+        public Exception Exception { get; private set; }
     }
-    
 }

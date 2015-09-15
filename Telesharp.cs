@@ -13,7 +13,7 @@ namespace Telesharp
             get { return _logger; }
             set
             {
-                if(value == null) throw new ArgumentNullException("value");
+                if (value == null) throw new ArgumentNullException("value");
                 _logger = value;
             }
         }
@@ -22,6 +22,7 @@ namespace Telesharp
         {
             BotDied(bot, eventArgs);
         }
+
         internal static void InvokeBotRunnedEvent(Bot bot, BotRunnedEventArgs eventArgs)
         {
             BotRunned(bot, eventArgs);
@@ -29,6 +30,5 @@ namespace Telesharp
 
         public static event BotDiedEventHandler BotDied = delegate { };
         public static event BotRunnedEventHandler BotRunned = delegate { };
-
     }
 }

@@ -2,7 +2,7 @@
 {
     public enum BotExitType
     {
-        Error, 
+        Error,
         Normal
     }
 }

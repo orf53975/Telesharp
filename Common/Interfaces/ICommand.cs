@@ -5,7 +5,7 @@ namespace Telesharp.Common.Interfaces
     public interface ICommand
     {
         Message Prototype { get; set; }
-        void Executed(Message message); 
         string HelpText { get; set; }
+        void Executed(Message message);
     }
 }

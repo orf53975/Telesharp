@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +7,7 @@ using Newtonsoft.Json.Linq;
 using Telesharp.Common.BotTypes;
 using Telesharp.Common.TelesharpTypes;
 using Telesharp.Common.Types;
+using File = System.IO.File;
 
 namespace Telesharp.Common
 {
@@ -24,13 +24,7 @@ namespace Telesharp.Common
 
         public string BuildUriForMethod(string method)
         {
-            var uri = "http://api.telegram.org/bot" + Bot.Settings.Token + "/" + method;
-            //if (Bot.Settings.InfoToConsole)
-            //{
-            //    Console.WriteLine("Ready url: " + uri);
-            //}
-            // Not useful
-            return uri;
+            return string.Format("https://api.telegram.org/bot{0}/{1}", Bot.Settings.Token, method);
         }
 
         public bool CheckConnection()
@@ -40,9 +34,20 @@ namespace Telesharp.Common
 
         public User GetMe()
         {
-            var me = SendTRequest<User>(BuildUriForMethod("getMe"));
-            return me;
+            return SendTRequest<User>(BuildUriForMethod("getMe"));
         }
+
+        public Message ForwardMessage(Message message, Chat fromChat, Chat toChat)
+        {
+            return SendTRequest<Message>(BuildUriForMethod("forwardMessage"), new Dictionary<string, string>
+            {
+                {"chat_id", toChat.Id + ""},
+                {"from_chat_id", fromChat.Id + ""},
+                {"message_id", message.MessageId + ""}
+            });
+        }
+
+        #region Get Updates
 
         public Update[] GetUpdates()
         {
@@ -65,8 +70,7 @@ namespace Telesharp.Common
             }
         }
 
-        [SuppressMessage("ReSharper", "MethodOverloadWithOptionalParameter")]
-        public Update[] GetUpdates(int offset = 0, int limit = 100, int timeout = 0)
+        public Update[] GetUpdates(int offset, int limit = 100, int timeout = 0)
         {
             return SendTRequest<Update[]>(BuildUriForMethod("getUpdates"), new Dictionary<string, string>
             {
@@ -75,6 +79,10 @@ namespace Telesharp.Common
                 {"timeout", timeout + ""}
             });
         }
+
+        #endregion
+
+        #region Send Text Message
 
         public Message SendMessage(int chatId, string text, bool disableWebPagePreview = false)
         {
@@ -96,6 +104,10 @@ namespace Telesharp.Common
             });
         }
 
+        #endregion Send Text Message
+
+        #region Reply
+
         public Message ReplyToMessage(Message message, string text)
         {
             return SendTRequest<Message>(BuildUriForMethod("sendMessage"), new Dictionary<string, string>
@@ -110,9 +122,9 @@ namespace Telesharp.Common
         {
             return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), new Dictionary<string, string>
             {
-                { "photo", photo.FileId },
-                { "reply_to_message_id", message.MessageId + "" },
-                { "chat_id", message.Chat.Id + "" }
+                {"photo", photo.FileId},
+                {"reply_to_message_id", message.MessageId + ""},
+                {"chat_id", message.Chat.Id + ""}
             });
         }
 
@@ -120,9 +132,9 @@ namespace Telesharp.Common
         {
             return SendTRequest<Message>(BuildUriForMethod("sendAudio"), new Dictionary<string, string>
             {
-                { "audio", audio.FileId },
-                { "reply_to_message_id", message.MessageId + "" },
-                { "chat_id", message.Chat.Id + "" }
+                {"audio", audio.FileId},
+                {"reply_to_message_id", message.MessageId + ""},
+                {"chat_id", message.Chat.Id + ""}
             });
         }
 
@@ -130,9 +142,9 @@ namespace Telesharp.Common
         {
             return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
             {
-                { "document", document.FileId },
-                { "reply_to_message_id", message.MessageId + "" },
-                { "chat_id", message.Chat.Id + "" }
+                {"document", document.FileId},
+                {"reply_to_message_id", message.MessageId + ""},
+                {"chat_id", message.Chat.Id + ""}
             });
         }
 
@@ -140,9 +152,9 @@ namespace Telesharp.Common
         {
             return SendTRequest<Message>(BuildUriForMethod("sendSticker"), new Dictionary<string, string>
             {
-                { "sticker", sticker.FileId },
-                { "reply_to_message_id", message.MessageId + "" },
-                { "chat_id", message.Chat.Id + "" }
+                {"sticker", sticker.FileId},
+                {"reply_to_message_id", message.MessageId + ""},
+                {"chat_id", message.Chat.Id + ""}
             });
         }
 
@@ -150,9 +162,9 @@ namespace Telesharp.Common
         {
             return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
             {
-                { "video", video.FileId },
-                { "reply_to_message_id", message.MessageId + "" },
-                { "chat_id", message.Chat.Id + "" }
+                {"video", video.FileId},
+                {"reply_to_message_id", message.MessageId + ""},
+                {"chat_id", message.Chat.Id + ""}
             });
         }
 
@@ -160,66 +172,16 @@ namespace Telesharp.Common
         {
             return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
             {
-                { "latitude", location.Latitude + "" },
-                { "longitude", location.Longitude + "" },
-                { "reply_to_message_id", message.MessageId + "" },
-                { "chat_id", message.Chat.Id + "" }
+                {"latitude", location.Latitude + ""},
+                {"longitude", location.Longitude + ""},
+                {"reply_to_message_id", message.MessageId + ""},
+                {"chat_id", message.Chat.Id + ""}
             });
         }
 
-        public Message ForwardMessage(Message message, Chat fromChat, Chat toChat)
-        {
-            return SendTRequest<Message>(BuildUriForMethod("forwardMessage"), new Dictionary<string, string>
-            {
-                {"chat_id", toChat.Id + ""},
-                {"from_chat_id", fromChat.Id + ""},
-                {"message_id", message.MessageId + ""}
-            });
-        }
+        #endregion
 
-        public Message SendPhoto(int chatId, PhotoSize photo, string caption = null)
-        {
-            var fields = new Dictionary<string, string>
-            {
-                {"chat_id", chatId + ""},
-                {"photo", photo.FileId}
-            };
-            if (caption != null) fields.Add("caption", caption);
-            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
-        }
-
-        public Message SendPhoto(Chat chat, PhotoSize photo, string caption = null)
-        {
-            var fields = new Dictionary<string, string>
-            {
-                {"chat_id", chat.Id + ""},
-                {"photo", photo.FileId}
-            };
-            if (caption != null) fields.Add("caption", caption);
-            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
-        }
-
-        public Message SendPhoto(int chatId, string photoId, string caption = null)
-        {
-            var fields = new Dictionary<string, string>
-            {
-                {"chat_id", chatId + ""},
-                {"photo", photoId}
-            };
-            if (caption != null) fields.Add("caption", caption);
-            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
-        }
-
-        public Message SendPhoto(Chat chat, string photoId, string caption = null)
-        {
-            var fields = new Dictionary<string, string>
-            {
-                {"chat_id", chat.Id + ""},
-                {"photo", photoId}
-            };
-            if (caption != null) fields.Add("caption", caption);
-            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
-        }
+        #region Send Audio
 
         public Message SendAudio(int chatId, Audio audio)
         {
@@ -239,7 +201,6 @@ namespace Telesharp.Common
             });
         }
 
-
         public Message SendAudio(int chatId, string audioId)
         {
             return SendTRequest<Message>(BuildUriForMethod("sendAudio"), new Dictionary<string, string>
@@ -258,41 +219,48 @@ namespace Telesharp.Common
             });
         }
 
-        public Message SendDocument(int chatId, Document document)
+        public Message SendAudioFile(int chatId, string fileName)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
-            {
-                {"chat_id", chatId + ""},
-                {"document", document.FileId}
-            });
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+
+            return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileName, Path.GetFileName(fileName), "audio",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chatId + ""}
+                });
         }
 
-        public Message SendDocument(Chat chat, Document document)
+        public Message SendAudioFile(Chat chat, string fileName)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
-            {
-                {"chat_id", chat.Id + ""},
-                {"document", document.FileId}
-            });
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileName, Path.GetFileName(fileName), "audio",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chat.Id + ""}
+                });
         }
 
-        public Message SendDocument(int chatId, string documentId)
+        public Message SendAudioFile(int chatId, byte[] bytes, string tFileName)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
-            {
-                {"chat_id", chatId + ""},
-                {"document", documentId}
-            });
+            return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), bytes, tFileName, "audio",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chatId + ""}
+                });
         }
 
-        public Message SendDocument(Chat chat, string documentId)
+        public Message SendAudioFile(Chat chat, byte[] bytes, string tFileName)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
-            {
-                {"chat_id", chat.Id + ""},
-                {"document", documentId}
-            });
+            return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), bytes, tFileName, "audio",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chat.Id + ""}
+                });
         }
+
+        #endregion
+
+        #region Send Sticker
 
         public Message SendSticker(int chatId, Sticker sticker)
         {
@@ -330,46 +298,92 @@ namespace Telesharp.Common
             });
         }
 
+        #endregion Send Sticker
+
+        #region Send Video
+
         public Message SendVideo(int chatId, Video video)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
             {
                 {"chat_id", chatId + ""},
-                {"audio", video.FileId}
+                {"video", video.FileId}
             });
         }
 
         public Message SendVideo(Chat chat, Video video)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
             {
                 {"chat_id", chat.Id + ""},
-                {"audio", video.FileId}
+                {"video", video.FileId}
             });
         }
 
 
         public Message SendVideo(int chatId, string videoId)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
             {
                 {"chat_id", chatId + ""},
-                {"audio", videoId}
+                {"video", videoId}
             });
         }
 
         public Message SendVideo(Chat chat, string videoId)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
             {
                 {"chat_id", chat.Id + ""},
-                {"audio", videoId}
+                {"video", videoId}
             });
         }
 
+        public Message SendVideoFile(int chatId, string fileName)
+        {
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileName, Path.GetFileName(fileName), "video",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chatId + ""}
+                });
+        }
+
+        public Message SendVideoFile(Chat chat, string fileName)
+        {
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileName, Path.GetFileName(fileName), "video",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chat.Id + ""}
+                });
+        }
+
+        public Message SendVideoFile(int chatId, byte[] bytes, string tFileName)
+        {
+            return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), bytes, tFileName, "video",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chatId + ""}
+                });
+        }
+
+        public Message SendVideoFile(Chat chat, byte[] bytes, string tFileName)
+        {
+            return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), bytes, tFileName, "video",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chat.Id + ""}
+                });
+        }
+
+        #endregion
+
+        #region Send Location
+
         public Message SendLocation(int chatId, Location location)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
             {
                 {"chat_id", chatId + ""},
                 {"latitude", location.Latitude + ""},
@@ -379,7 +393,7 @@ namespace Telesharp.Common
 
         public Message SendLocation(Chat chat, Location location)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
             {
                 {"chat_id", chat.Id + ""},
                 {"latitude", location.Latitude + ""},
@@ -389,7 +403,7 @@ namespace Telesharp.Common
 
         public Message SendLocation(Chat chat, float latitude, float longitude)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
             {
                 {"chat_id", chat.Id + ""},
                 {"latitude", latitude + ""},
@@ -399,7 +413,7 @@ namespace Telesharp.Common
 
         public Message SendLocation(int chatId, float latitude, float longitude)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
+            return SendTRequest<Message>(BuildUriForMethod("sendLocation"), new Dictionary<string, string>
             {
                 {"chat_id", chatId + ""},
                 {"latitude", latitude + ""},
@@ -446,13 +460,189 @@ namespace Telesharp.Common
             };
         }
 
+        #endregion Send Location
+
+        #region Send Photo
+
+        public Message SendPhoto(int chatId, PhotoSize photo, string caption = null)
+        {
+            var fields = new Dictionary<string, string>
+            {
+                {"chat_id", chatId + ""},
+                {"photo", photo.FileId}
+            };
+            if (caption != null) fields.Add("caption", caption);
+            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
+        }
+
+        public Message SendPhoto(Chat chat, PhotoSize photo, string caption = null)
+        {
+            var fields = new Dictionary<string, string>
+            {
+                {"chat_id", chat.Id + ""},
+                {"photo", photo.FileId}
+            };
+            if (caption != null) fields.Add("caption", caption);
+            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
+        }
+
+        public Message SendPhoto(int chatId, string photoId, string caption = null)
+        {
+            var fields = new Dictionary<string, string>
+            {
+                {"chat_id", chatId + ""},
+                {"photo", photoId}
+            };
+            if (caption != null) fields.Add("caption", caption);
+            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
+        }
+
+        public Message SendPhoto(Chat chat, string photoId, string caption = null)
+        {
+            var fields = new Dictionary<string, string>
+            {
+                {"chat_id", chat.Id + ""},
+                {"photo", photoId}
+            };
+            if (caption != null) fields.Add("caption", caption);
+            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
+        }
+
+        public Message SendPhotoFile(int chatId, string fileName, string caption = null)
+        {
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            var parametrs = new Dictionary<string, string>
+            {
+                {"chat_id", chatId + ""}
+            };
+            if (caption != null) parametrs.Add("caption", caption);
+            return TeFileUpload<Message>(BuildUriForMethod("sendPhoto"), fileName, Path.GetFileName(fileName), "photo",
+                parametrs);
+        }
+
+        public Message SendPhotoFile(Chat chat, string fileName, string caption = null)
+        {
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            var parametrs = new Dictionary<string, string>
+            {
+                {"chat_id", chat.Id + ""}
+            };
+            if (caption != null) parametrs.Add("caption", caption);
+            return TeFileUpload<Message>(BuildUriForMethod("sendPhoto"), fileName, Path.GetFileName(fileName), "photo",
+                parametrs);
+        }
+
+        public Message SendPhotoFile(int chatId, byte[] bytes, string tFileName, string caption = null)
+        {
+            var parametrs = new Dictionary<string, string>
+            {
+                {"chat_id", chatId + ""}
+            };
+            if (caption != null) parametrs.Add("caption", caption);
+            return TeFileUpload<Message>(BuildUriForMethod("sendPhoto"), bytes, tFileName, "photo",
+                parametrs);
+        }
+
+        public Message SendPhotoFile(Chat chat, byte[] bytes, string tFileName, string caption = null)
+        {
+            var parametrs = new Dictionary<string, string>
+            {
+                {"chat_id", chat.Id + ""}
+            };
+            if (caption != null) parametrs.Add("caption", caption);
+            return TeFileUpload<Message>(BuildUriForMethod("sendPhoto"), bytes, tFileName, "photo",
+                parametrs);
+        }
+
+        #endregion Send Photo
+
+        #region Send Document
+
+        public Message SendDocument(int chatId, Document document)
+        {
+            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
+            {
+                {"chat_id", chatId + ""},
+                {"document", document.FileId}
+            });
+        }
+
+        public Message SendDocument(Chat chat, Document document)
+        {
+            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
+            {
+                {"chat_id", chat.Id + ""},
+                {"document", document.FileId}
+            });
+        }
+
+        public Message SendDocument(int chatId, string documentId)
+        {
+            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
+            {
+                {"chat_id", chatId + ""},
+                {"document", documentId}
+            });
+        }
+
+        public Message SendDocument(Chat chat, string documentId)
+        {
+            return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
+            {
+                {"chat_id", chat.Id + ""},
+                {"document", documentId}
+            });
+        }
+
+        public Message SendDocumentFile(int chatId, string fileName)
+        {
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileName, Path.GetFileName(fileName),
+                "document",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chatId + ""}
+                });
+        }
+
+        public Message SendDocumentFile(Chat chat, string fileName)
+        {
+            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileName, Path.GetFileName(fileName),
+                "document",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chat.Id + ""}
+                });
+        }
+
+        public Message SendDocumentFile(int chatId, byte[] bytes, string tFileName)
+        {
+            return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), bytes, tFileName, "document",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chatId + ""}
+                });
+        }
+
+        public Message SendDocumentFile(Chat chat, byte[] bytes, string tFileName)
+        {
+            return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), bytes, tFileName, "document",
+                new Dictionary<string, string>
+                {
+                    {"chat_id", chat.Id + ""}
+                });
+        }
+
+        #endregion
+
         #region Requests
 
         private bool SendTRequest(string uri)
         {
             try
             {
-                new AdvancedWebClient(Bot.Settings.TimeoutForRequest).DownloadString(uri);
+                CreateWebClient().DownloadString(uri);
                 return true;
             }
             catch (Exception exc)
@@ -473,7 +663,7 @@ namespace Telesharp.Common
         {
             try
             {
-                var wc = new AdvancedWebClient(Bot.Settings.TimeoutForRequest);
+                var wc = CreateWebClient();
                 wc.SendGET(uri, parametrs);
                 return true;
             }
@@ -495,7 +685,7 @@ namespace Telesharp.Common
         {
             try
             {
-                var token = JToken.Parse(new AdvancedWebClient(Bot.Settings.TimeoutForRequest).DownloadString(uri));
+                var token = JToken.Parse(CreateWebClient().DownloadString(uri));
                 return token["result"].ToObject<T>();
             }
             catch (Exception exc)
@@ -516,7 +706,7 @@ namespace Telesharp.Common
         {
             try
             {
-                var wc = new AdvancedWebClient(Bot.Settings.TimeoutForRequest);
+                var wc = CreateWebClient();
                 var token = JToken.Parse(wc.SendGET(uri, parametrs));
                 return token["result"].ToObject<T>();
             }
@@ -542,7 +732,7 @@ namespace Telesharp.Common
                         Telesharp.Logger.Log(LogType.Warning, "TRequest", "Failed to parse failure code/text");
                         if (Bot.Settings.ExceptionsToConsole)
                         {
-                            Telesharp.Logger.Log(LogType.Error, "TRequest",  "Exception: \n" + exc2);
+                            Telesharp.Logger.Log(LogType.Error, "TRequest", "Exception: \n" + exc2);
                         }
                     }
                 }
@@ -551,7 +741,8 @@ namespace Telesharp.Common
             {
                 if (Bot.Settings.InfoToConsole)
                 {
-                    Telesharp.Logger.Log(LogType.Warning, "TRequest", "Exception when trying to get response or parse JSON");
+                    Telesharp.Logger.Log(LogType.Warning, "TRequest",
+                        "Exception when trying to get response or parse JSON");
                     if (Bot.Settings.ExceptionsToConsole)
                     {
                         Telesharp.Logger.Log(LogType.Error, "TRequest", "Exception: \n" + exc);
@@ -559,6 +750,83 @@ namespace Telesharp.Common
                 }
             }
             return default(T);
+        }
+
+        private T TeFileUpload<T>(string uri, string fileName, string tFileName, string fFieldName,
+            Dictionary<string, string> parametrs) where T : class
+        {
+            try
+            {
+                var bytes = File.ReadAllBytes(fileName);
+                var file = new FormUpload.FileParameter(bytes, tFileName, "multipart/form-data");
+                var fields = parametrs.ToDictionary(parametr => parametr.Key, parametr => (object) parametr.Value);
+                fields.Add(fFieldName, file);
+                if (Bot.Settings.InfoToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Info, "TFiSender",
+                        "Sending file with size: " + (bytes.Length/1024.0).ToString("0.00") + "Kb");
+                }
+                var resp = FormUpload.MultipartFormDataPost(uri,
+                    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
+                    fields);
+                var streamreader = new StreamReader(resp.GetResponseStream());
+                return JToken.Parse(streamreader.ReadToEnd())["result"].ToObject<T>();
+            }
+            catch (Exception exc)
+            {
+                if (Bot.Settings.InfoToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Warning, "TFiSender", "Failed to upload file.");
+                    if (Bot.Settings.ExceptionsToConsole)
+                    {
+                        Telesharp.Logger.Log(LogType.Error, "TFiSender", "Exception: \n" + exc);
+                    }
+                }
+                return default(T);
+            }
+        }
+
+        private T TeFileUpload<T>(string uri, byte[] bytes, string tFileName, string fFieldName,
+            Dictionary<string, string> parametrs) where T : class
+        {
+            try
+            {
+                var file = new FormUpload.FileParameter(bytes, tFileName, "multipart/form-data");
+                var fields = parametrs.ToDictionary(parametr => parametr.Key, parametr => (object) parametr.Value);
+                fields.Add(fFieldName, file);
+                if (Bot.Settings.InfoToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Info, "TFiSender",
+                        "Sending file with size: " + (bytes.Length/1024.0).ToString("0.00") + "Kb");
+                }
+                var resp = FormUpload.MultipartFormDataPost(uri,
+                    "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
+                    fields);
+                var streamreader = new StreamReader(resp.GetResponseStream());
+                return JToken.Parse(streamreader.ReadToEnd())["result"].ToObject<T>();
+            }
+            catch (Exception exc)
+            {
+                if (Bot.Settings.InfoToConsole)
+                {
+                    Telesharp.Logger.Log(LogType.Warning, "TFiSender", "Failed to upload file.");
+                    if (Bot.Settings.ExceptionsToConsole)
+                    {
+                        Telesharp.Logger.Log(LogType.Error, "TFiSender", "Exception: \n" + exc);
+                    }
+                }
+                return default(T);
+            }
+        }
+
+        private AdvancedWebClient CreateWebClient()
+        {
+            var client = new AdvancedWebClient(Bot.Settings.TimeoutForRequest);
+            if (Bot.Settings.Proxy != null)
+            {
+                client.Proxy = Bot.Settings.Proxy;
+            }
+            return client;
         }
 
         #endregion

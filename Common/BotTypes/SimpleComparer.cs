@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Telesharp.Common.Interfaces;
@@ -79,8 +80,7 @@ namespace Telesharp.Common.BotTypes
 
         public SimpleComparerCommand() : this(new Message(-1, "/on"), "Nothing information, what can help you", Mode.BeginsWithTextFromOriginalMessage) { }
 
-        public SimpleComparerCommand(Message prototype, string helpText,
-            Mode compareMode = Mode.IsSame)
+        public SimpleComparerCommand(Message prototype, string helpText, Mode compareMode = Mode.IsSame)
         {
             Prototype = prototype;
             CompareMode = compareMode;
@@ -95,13 +95,13 @@ namespace Telesharp.Common.BotTypes
         /// <summary>
         ///     Compare mode
         /// </summary>
-        [System.ComponentModel.DefaultValue(2)]
+        [DefaultValue(2)]
         public Mode CompareMode { get; set; }
 
         /// <summary>
         ///     Helpful text
         /// </summary>
-        [System.ComponentModel.DefaultValue("Nothing information, what can help you")]
+        [DefaultValue("Nothing information, what can help you")]
         public string HelpText { get; set; }
 
         /// <summary>

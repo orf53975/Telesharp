@@ -2,7 +2,7 @@
 {
     public enum BotRunnedState
     {
-       Error,
-       Normal
+        Error,
+        Normal
     }
 }

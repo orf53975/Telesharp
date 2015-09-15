@@ -67,6 +67,7 @@
     <Compile Include="Common\TelesharpTypes\BotExitType.cs" />
     <Compile Include="Common\TelesharpTypes\BotRunnedEvent.cs" />
     <Compile Include="Common\TelesharpTypes\BotRunnedState.cs" />
+    <Compile Include="Common\TelesharpTypes\FormUploader.cs" />
     <Compile Include="Common\TelesharpTypes\LogType.cs" />
     <Compile Include="Common\Types\Audio.cs" />
     <Compile Include="Common\Types\Chat.cs" />

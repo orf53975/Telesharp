@@ -51,7 +51,7 @@ namespace Telesharp
                 var updates = Methods.GetUpdates();
                 if (updates == null) // If can't get updates
                 {
-                    Telesharp.Logger.Log(LogType.Warning, Settings.Name, "Can't get updates!");
+                    //Telesharp.Logger.Log(LogType.Warning, Settings.Name, "Can't get updates!");
                     continue; // We just continue
                 }
                 foreach (var upd in updates)
@@ -103,7 +103,8 @@ namespace Telesharp
                 catch (Exception exc)
                 {
                     if (Settings.InfoToConsole) Telesharp.Logger.Log(LogType.Error, Settings.Name, exc.ToString());
-                    if (Settings.ExceptionsToConsole) Telesharp.Logger.Log(LogType.Error, Settings.Name, exc.ToString());
+                    if (Settings.ExceptionsToConsole)
+                        Telesharp.Logger.Log(LogType.Error, Settings.Name, exc.ToString());
                 }
                 finally
                 {
@@ -121,7 +122,8 @@ namespace Telesharp
             }
             catch (Exception exc)
             {
-                if (Settings.ExceptionsToConsole) Telesharp.Logger.Log(LogType.Error, Settings.Name, "Exception, when execute command: \n" + exc);
+                if (Settings.ExceptionsToConsole)
+                    Telesharp.Logger.Log(LogType.Error, Settings.Name, "Exception, when execute command: \n" + exc);
             }
         }
 
@@ -166,7 +168,6 @@ namespace Telesharp
         public BotSettings Settings { get; set; }
         public User Me { get; set; }
         public TelegramBotMethods Methods { get; set; }
-
 
 
         public bool BotAlive

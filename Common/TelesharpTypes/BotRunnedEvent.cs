@@ -2,7 +2,6 @@
 
 namespace Telesharp.Common.TelesharpTypes
 {
-
     public delegate void BotRunnedEventHandler(object sender, BotRunnedEventArgs e);
 
     public class BotRunnedEventArgs
@@ -14,7 +13,7 @@ namespace Telesharp.Common.TelesharpTypes
 
         public BotRunnedEventArgs(Exception exception)
         {
-            if(exception == null) throw new ArgumentNullException("exception");
+            if (exception == null) throw new ArgumentNullException("exception");
             Status = BotRunnedState.Error;
             Exception = exception;
         }
@@ -22,5 +21,4 @@ namespace Telesharp.Common.TelesharpTypes
         public BotRunnedState Status { get; private set; }
         public Exception Exception { get; set; }
     }
-
 }

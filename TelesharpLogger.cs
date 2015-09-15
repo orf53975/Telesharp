@@ -7,6 +7,7 @@ namespace Telesharp
     public class TelesharpLogger : ILogger
     {
         private readonly string format = "[{0}] [{1}] [{2}]\t{3}";
+
         public void Log(string text)
         {
             Log(LogType.Info, text);
@@ -62,7 +63,9 @@ namespace Telesharp
 
         private string GenerateTimeString()
         {
-            return string.Format("{0}.{1} {2}:{3}:{4}.{5}", DateTime.Now.Day, DateTime.Now.Month, DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second, DateTime.Now.Millisecond);
+            return string.Format("{0}.{1} {2}:{3}:{4}.{5}", DateTime.Now.Day, DateTime.Now.Month,
+                DateTime.Now.Hour.ToString("00"), DateTime.Now.Minute.ToString("00"), DateTime.Now.Second.ToString("00"),
+                DateTime.Now.Millisecond.ToString("000"));
         }
     }
 }
