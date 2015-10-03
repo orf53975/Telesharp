@@ -234,7 +234,6 @@
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".nuget\NuGet.exe" />
     <Content Include="Libraries\Newtonsoft.Json.dll" />
     <Content Include="Libraries\System.Web.dll" />
   </ItemGroup>
