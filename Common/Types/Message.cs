@@ -160,7 +160,7 @@ namespace Telesharp.Common.Types
         ///     A group photo was change to this value
         /// </summary>
         [JsonProperty(PropertyName = "new_chat_photo")]
-        public PhotoSize NewChatPhoto { get; set; }
+        public PhotoSize[] NewChatPhoto { get; set; }
 
         /// <summary>
         ///     Informs that the group photo was deleted

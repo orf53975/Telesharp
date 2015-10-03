@@ -6,18 +6,16 @@ namespace Telesharp
 {
     public class TelesharpLogger : ILogger
     {
-        private readonly string format = "[{0}] [{1}] [{2}]\t{3}";
+        private const string Format = "[{0}] [{1}] [{2}]\t{3}";
 
         public void Log(string text)
         {
             Log(LogType.Info, text);
-            //Console.WriteLine(format, GenerateTimeString(), "Info", "Telesharp", text);
         }
 
         public void Log(string title, string text)
         {
             Log(LogType.Info, title, text);
-            //Console.WriteLine(format, GenerateTimeString(), "Info", title, text);
         }
 
         public void Log(LogType logType, string text)
@@ -34,9 +32,9 @@ namespace Telesharp
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("logType", logType, null);
+                    throw new ArgumentOutOfRangeException(nameof(logType), logType, null);
             }
-            Console.WriteLine(format, GenerateTimeString(), logType, "Telesharp", text);
+            Console.WriteLine(Format, GenerateTimeString(), logType, "Telesharp", text);
             Console.ForegroundColor = ConsoleColor.White;
         }
 
@@ -54,18 +52,17 @@ namespace Telesharp
                     Console.ForegroundColor = ConsoleColor.Red;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("logType", logType, null);
+                    throw new ArgumentOutOfRangeException(nameof(logType), logType, null);
             }
-            Console.WriteLine(format, GenerateTimeString(), logType, title, text);
+            Console.WriteLine(Format, GenerateTimeString(), logType, title, text);
             Console.ForegroundColor = ConsoleColor.White;
         }
 
 
-        private string GenerateTimeString()
+        private static string GenerateTimeString()
         {
-            return string.Format("{0}.{1} {2}:{3}:{4}.{5}", DateTime.Now.Day, DateTime.Now.Month,
-                DateTime.Now.Hour.ToString("00"), DateTime.Now.Minute.ToString("00"), DateTime.Now.Second.ToString("00"),
-                DateTime.Now.Millisecond.ToString("000"));
+            return
+                $"{DateTime.Now.Day}.{DateTime.Now.Month} {DateTime.Now.Hour.ToString("00")}:{DateTime.Now.Minute.ToString("00")}:{DateTime.Now.Second.ToString("00")}.{DateTime.Now.Millisecond.ToString("000")}";
         }
     }
 }

@@ -46,7 +46,7 @@ namespace Telesharp.Common.BotTypes
             {
                 if (value < 1)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 _checkUpdatesInterval = value;
             }
@@ -62,7 +62,7 @@ namespace Telesharp.Common.BotTypes
             {
                 if (string.IsNullOrEmpty(value) || string.IsNullOrWhiteSpace(value))
                 {
-                    throw new ArgumentNullException("value");
+                    throw new ArgumentNullException(nameof(value));
                 }
                 _token = value;
             }
@@ -109,7 +109,7 @@ namespace Telesharp.Common.BotTypes
             {
                 if (value != -1 && value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 _maxThreadsForCommands = value;
             }
@@ -133,6 +133,8 @@ namespace Telesharp.Common.BotTypes
             }
         }
 
+        public bool GetProfile { get; set; } = true;
+
         /// <summary>
         ///     Timeout to send request
         /// </summary>
@@ -143,7 +145,7 @@ namespace Telesharp.Common.BotTypes
             {
                 if (value <= 0)
                 {
-                    throw new ArgumentOutOfRangeException("value");
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
                 _timeoutForRequest = value;
             }
@@ -156,7 +158,7 @@ namespace Telesharp.Common.BotTypes
             get { return _name; }
             set
             {
-                if (value == null) throw new ArgumentNullException("value");
+                if (value == null) throw new ArgumentNullException(nameof(value));
                 _name = value;
             }
         }

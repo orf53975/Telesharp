@@ -92,7 +92,7 @@ namespace Telesharp.Common.JsonConverters
             var epoc = new DateTime(1970, 1, 1);
             var delta = self - epoc;
 
-            if (delta.TotalSeconds < 0) throw new ArgumentOutOfRangeException("self");
+            if (delta.TotalSeconds < 0) throw new ArgumentOutOfRangeException(nameof(self));
 
             return (long) delta.TotalSeconds;
         }

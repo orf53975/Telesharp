@@ -13,24 +13,42 @@ namespace Telesharp
 {
     public class Bot
     {
-        private int _threads;
-
         public void Run()
         {
+            if(BotAlive) throw new InvalidOperationException("Bot already runned!");
             if (Settings.InfoToConsole)
             {
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot...");
             }
-            _botThread.Start();
+            if (_botThread == null) PrepareThread();
+            _botThread?.Start();
         }
 
         public void RunSync()
         {
+            if (BotAlive) throw new InvalidOperationException("Bot already runned!");
             if (Settings.InfoToConsole)
             {
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot sync...");
             }
+            _botRunAsSync = true;
             Work();
+        }
+
+        private void PrepareThread()
+        {
+            _botThread = new Thread(Work)
+            {
+                Name = Settings.Name + " Thread"
+            };
+        }
+        
+        public void Stop()
+        {
+            if(!BotAlive) throw new InvalidOperationException("Bot already stopped!");
+            if (_stop) throw new InvalidOperationException("Bot already stops!");
+            _stop = true;
+            Telesharp.Logger.Log(LogType.Info, "Stopping bot...");
         }
 
         public event ParseMessageEventHandler OnParseMessage = delegate { };
@@ -38,15 +56,14 @@ namespace Telesharp
 
         private void Work()
         {
-            Me = Methods.GetMe();
-            if (Me == null)
+            if (Settings.GetProfile && (Me = Methods.GetMe()) == null)
             {
                 Telesharp.Logger.Log(LogType.Error, Settings.Name, "Error, when get profile of bot");
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Exit");
                 return;
             }
             Telesharp.InvokeBotRunnedEvent(this, new BotRunnedEventArgs());
-            while (true)
+            while (!_stop)
             {
                 var updates = Methods.GetUpdates();
                 if (updates == null) // If can't get updates
@@ -56,6 +73,7 @@ namespace Telesharp
                 }
                 foreach (var upd in updates)
                 {
+                    if(_stop) break;
                     // Invoke event
                     OnParseMessage(this, new ParseMessageEventArgs(upd.Message));
 
@@ -102,9 +120,8 @@ namespace Telesharp
                 }
                 catch (Exception exc)
                 {
-                    if (Settings.InfoToConsole) Telesharp.Logger.Log(LogType.Error, Settings.Name, exc.ToString());
                     if (Settings.ExceptionsToConsole)
-                        Telesharp.Logger.Log(LogType.Error, Settings.Name, exc.ToString());
+                        Telesharp.Logger.Log(LogType.Error, Settings.Name, $"Exception, when execute command:\n{exc}");
                 }
                 finally
                 {
@@ -123,13 +140,13 @@ namespace Telesharp
             catch (Exception exc)
             {
                 if (Settings.ExceptionsToConsole)
-                    Telesharp.Logger.Log(LogType.Error, Settings.Name, "Exception, when execute command: \n" + exc);
+                    Telesharp.Logger.Log(LogType.Error, Settings.Name, $"Exception, when execute command:\n{exc}");
             }
         }
 
         public void WaitToDie()
         {
-            while (_botThread.IsAlive)
+            while (BotAlive)
             {
                 Thread.Sleep(1000);
             }
@@ -145,7 +162,7 @@ namespace Telesharp
         {
             if (settings == null)
             {
-                throw new ArgumentNullException("settings");
+                throw new ArgumentNullException(nameof(settings));
             }
             if (settings.Token == null)
             {
@@ -153,16 +170,16 @@ namespace Telesharp
             }
             Settings = settings;
             Methods = new TelegramBotMethods(this);
-            _botThread = new Thread(Work);
             Commands = new List<ICommand>();
         }
 
         #endregion
 
         #region Variables
-
-        private readonly bool _botRunAsSync = false;
-        private readonly Thread _botThread;
+        private int _threads;
+        private bool _stop;
+        private bool _botRunAsSync;
+        private Thread _botThread;
         public List<ICommand> Commands { get; set; }
         public CommandComparer Comparer { get; set; }
         public BotSettings Settings { get; set; }
@@ -170,10 +187,7 @@ namespace Telesharp
         public TelegramBotMethods Methods { get; set; }
 
 
-        public bool BotAlive
-        {
-            get { return _botRunAsSync || _botThread.IsAlive; }
-        }
+        public bool BotAlive => _botRunAsSync || (_botThread != null && _botThread.IsAlive);
 
         #endregion
     }

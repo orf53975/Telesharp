@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,11 +20,11 @@ namespace Telesharp.Common
             Bot = bot;
         }
 
-        private Bot Bot { get; set; }
+        private Bot Bot { get; }
 
         public string BuildUriForMethod(string method)
         {
-            return string.Format("https://api.telegram.org/bot{0}/{1}", Bot.Settings.Token, method);
+            return $"https://api.telegram.org/bot{Bot.Settings.Token}/{method}";
         }
 
         public bool CheckConnection()
@@ -57,7 +57,7 @@ namespace Telesharp.Common
                 {
                     {"offset", _updateOffset + ""}
                 });
-                if (updates.Length == 0)
+                if (updates == null || updates.Length == 0)
                 {
                     return null;
                 }
@@ -674,7 +674,7 @@ namespace Telesharp.Common
                     Telesharp.Logger.Log(LogType.Warning, "TRequest", "Failed to get response.");
                     if (Bot.Settings.ExceptionsToConsole)
                     {
-                        Telesharp.Logger.Log(LogType.Info, "TRequest", "Exception: \n" + exc);
+                        Telesharp.Logger.Log(LogType.Info, "TRequest", $"Exception:\n{exc}");
                     }
                 }
                 return false;
@@ -693,10 +693,10 @@ namespace Telesharp.Common
                 if (Bot.Settings.ResponsesToConsole)
                 {
                     Telesharp.Logger.Log(LogType.Warning, "TRequest", "Failed to get response.");
-                }
-                if (Bot.Settings.ExceptionsToConsole)
-                {
-                    Telesharp.Logger.Log(LogType.Info, "TRequest", "Exception: \n" + exc);
+                    if (Bot.Settings.ExceptionsToConsole)
+                    {
+                        Telesharp.Logger.Log(LogType.Info, "TRequest", $"Exception:\n{exc}");
+                    }
                 }
                 return default(T);
             }
@@ -714,7 +714,8 @@ namespace Telesharp.Common
             {
                 try
                 {
-                    if (exc.Response == null) return default(T);
+                    if (exc.Response?.GetResponseStream() == null) return default(T);
+                    // ReSharper disable once AssignNullToNotNullAttribute
                     using (var reader = new StreamReader(exc.Response.GetResponseStream()))
                     {
                         var result = reader.ReadToEnd();
@@ -764,11 +765,14 @@ namespace Telesharp.Common
                 if (Bot.Settings.InfoToConsole)
                 {
                     Telesharp.Logger.Log(LogType.Info, "TFiSender",
-                        "Sending file with size: " + (bytes.Length/1024.0).ToString("0.00") + "Kb");
+                        $"Sending file with size: {(bytes.Length / 1024.0).ToString("0.00")}Kb");
                 }
                 var resp = FormUpload.MultipartFormDataPost(uri,
                     "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
                     fields);
+                if (resp?.GetResponseStream() == null) return default(T);
+                // He does not consider it a solution ^^^ and i add this ↙ 
+                // ReSharper disable once AssignNullToNotNullAttribute
                 var streamreader = new StreamReader(resp.GetResponseStream());
                 return JToken.Parse(streamreader.ReadToEnd())["result"].ToObject<T>();
             }
@@ -797,11 +801,13 @@ namespace Telesharp.Common
                 if (Bot.Settings.InfoToConsole)
                 {
                     Telesharp.Logger.Log(LogType.Info, "TFiSender",
-                        "Sending file with size: " + (bytes.Length/1024.0).ToString("0.00") + "Kb");
+                        $"Sending file with size: {(bytes.Length / 1024.0).ToString("0.00")}Kb");
                 }
                 var resp = FormUpload.MultipartFormDataPost(uri,
                     "Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36",
                     fields);
+                if (resp?.GetResponseStream() == null) return default(T);
+                // ReSharper disable once AssignNullToNotNullAttribute
                 var streamreader = new StreamReader(resp.GetResponseStream());
                 return JToken.Parse(streamreader.ReadToEnd())["result"].ToObject<T>();
             }

@@ -18,7 +18,7 @@ namespace Telesharp.Common.TelesharpTypes
         public static HttpWebResponse MultipartFormDataPost(string postUrl, string userAgent,
             Dictionary<string, object> postParameters)
         {
-            var formDataBoundary = string.Format("----------{0:N}", Guid.NewGuid());
+            var formDataBoundary = $"----------{Guid.NewGuid():N}";
             var contentType = "multipart/form-data; boundary=" + formDataBoundary;
             var formData = GetMultipartFormData(postParameters, formDataBoundary);
             return PostForm(postUrl, userAgent, contentType, formData);
@@ -71,12 +71,7 @@ namespace Telesharp.Common.TelesharpTypes
 
                     // Add just the first part of this param, since we will write the file data directly to the Stream
                     var header =
-                        string.Format(
-                            "--{0}\r\nContent-Disposition: form-data; name=\"{1}\"; filename=\"{2}\";\r\nContent-Type: {3}\r\n\r\n",
-                            boundary,
-                            param.Key,
-                            fileToUpload.FileName ?? param.Key,
-                            fileToUpload.ContentType ?? "application/octet-stream");
+                        $"--{boundary}\r\nContent-Disposition: form-data; name=\"{param.Key}\"; filename=\"{fileToUpload.FileName ?? param.Key}\";\r\nContent-Type: {fileToUpload.ContentType ?? "application/octet-stream"}\r\n\r\n";
 
                     formDataStream.Write(Encoding.GetBytes(header), 0, Encoding.GetByteCount(header));
 
@@ -85,10 +80,8 @@ namespace Telesharp.Common.TelesharpTypes
                 }
                 else
                 {
-                    var postData = string.Format("--{0}\r\nContent-Disposition: form-data; name=\"{1}\"\r\n\r\n{2}",
-                        boundary,
-                        param.Key,
-                        param.Value);
+                    var postData =
+                        $"--{boundary}\r\nContent-Disposition: form-data; name=\"{param.Key}\"\r\n\r\n{param.Value}";
                     formDataStream.Write(Encoding.GetBytes(postData), 0, Encoding.GetByteCount(postData));
                 }
             }

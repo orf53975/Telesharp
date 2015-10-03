@@ -12,7 +12,7 @@ namespace Telesharp.Common.BotTypes
     {
         public override bool Compare(ICommand command, Message message)
         {
-            if (command == null) throw new ArgumentNullException("command");
+            if (command == null) throw new ArgumentNullException(nameof(command));
             switch (((SimpleComparerCommand) command).CompareMode)
             {
                 case SimpleComparerCommand.Mode.IsSame:
@@ -78,7 +78,12 @@ namespace Telesharp.Common.BotTypes
             BeginsWithTextFromOriginalMessage
         }
 
-        public SimpleComparerCommand() : this(new Message(-1, "/on"), "Nothing information, what can help you", Mode.BeginsWithTextFromOriginalMessage) { }
+        public SimpleComparerCommand()
+            : this(
+                new Message(-1, "/on"), "Nothing information, what can help you", Mode.BeginsWithTextFromOriginalMessage
+                )
+        {
+        }
 
         public SimpleComparerCommand(Message prototype, string helpText, Mode compareMode = Mode.IsSame)
         {

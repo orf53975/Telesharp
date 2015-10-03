@@ -13,7 +13,7 @@ namespace Telesharp.Common.TelesharpTypes
 
         public BotRunnedEventArgs(Exception exception)
         {
-            if (exception == null) throw new ArgumentNullException("exception");
+            if (exception == null) throw new ArgumentNullException(nameof(exception));
             Status = BotRunnedState.Error;
             Exception = exception;
         }
