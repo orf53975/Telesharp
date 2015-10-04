@@ -9,7 +9,7 @@ using Telesharp.Common.BotTypes;
 using Telesharp.Common.Interfaces;
 using Telesharp.Common.TelesharpTypes;
 using Telesharp.Common.Types;
-using File = System.IO.File;
+using File = Telesharp.Common.Types.File;
 
 namespace Telesharp.Common
 {
@@ -363,7 +363,7 @@ namespace Telesharp.Common
 
         public Message SendAudioFile(int chatId, string fileName)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
 
             return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileName, Path.GetFileName(fileName), "audio",
                 new Dictionary<string, string>
@@ -374,7 +374,7 @@ namespace Telesharp.Common
 
         public Message SendAudioFile(int chatId, string fileName, IReplyMarkup replyMarkup)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
 
             return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileName, Path.GetFileName(fileName), "audio",
                 new Dictionary<string, string>
@@ -386,7 +386,7 @@ namespace Telesharp.Common
 
         public Message SendAudioFile(Chat chat, string fileName)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileName, Path.GetFileName(fileName), "audio",
                 new Dictionary<string, string>
                 {
@@ -396,7 +396,7 @@ namespace Telesharp.Common
 
         public Message SendAudioFile(Chat chat, string fileName, IReplyMarkup replyMarkup)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileName, Path.GetFileName(fileName), "audio",
                 new Dictionary<string, string>
                 {
@@ -606,7 +606,7 @@ namespace Telesharp.Common
 
         public Message SendVideoFile(int chatId, string fileName)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileName, Path.GetFileName(fileName), "video",
                 new Dictionary<string, string>
                 {
@@ -616,7 +616,7 @@ namespace Telesharp.Common
 
         public Message SendVideoFile(int chatId, string fileName, IReplyMarkup replyMarkup)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileName, Path.GetFileName(fileName), "video",
                 new Dictionary<string, string>
                 {
@@ -627,7 +627,7 @@ namespace Telesharp.Common
 
         public Message SendVideoFile(Chat chat, string fileName)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileName, Path.GetFileName(fileName), "video",
                 new Dictionary<string, string>
                 {
@@ -637,7 +637,7 @@ namespace Telesharp.Common
 
         public Message SendVideoFile(Chat chat, string fileName, IReplyMarkup replyMarkup)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileName, Path.GetFileName(fileName), "video",
                 new Dictionary<string, string>
                 {
@@ -909,7 +909,7 @@ namespace Telesharp.Common
 
         public Message SendPhotoFile(int chatId, string fileName, string caption = null)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             var parametrs = new Dictionary<string, string>
             {
                 {"chat_id", $"{chatId}"}
@@ -921,7 +921,7 @@ namespace Telesharp.Common
 
         public Message SendPhotoFile(int chatId, string fileName, IReplyMarkup replyMarkup, string caption = null)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             var parametrs = new Dictionary<string, string>
             {
                 {"chat_id", $"{chatId}"},
@@ -934,7 +934,7 @@ namespace Telesharp.Common
 
         public Message SendPhotoFile(Chat chat, string fileName, string caption = null)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             var parametrs = new Dictionary<string, string>
             {
                 {"chat_id", $"{chat.Id}"}
@@ -946,7 +946,7 @@ namespace Telesharp.Common
 
         public Message SendPhotoFile(Chat chat, string fileName, IReplyMarkup replyMarkup, string caption = null)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             var parametrs = new Dictionary<string, string>
             {
                 {"chat_id", $"{chat.Id}"},
@@ -1087,7 +1087,7 @@ namespace Telesharp.Common
 
         public Message SendDocumentFile(int chatId, string fileName)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileName, Path.GetFileName(fileName),
                 "document",
                 new Dictionary<string, string>
@@ -1098,7 +1098,7 @@ namespace Telesharp.Common
 
         public Message SendDocumentFile(int chatId, string fileName, IReplyMarkup replyMarkup)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileName, Path.GetFileName(fileName),
                 "document",
                 new Dictionary<string, string>
@@ -1110,7 +1110,7 @@ namespace Telesharp.Common
 
         public Message SendDocumentFile(Chat chat, string fileName)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileName, Path.GetFileName(fileName),
                 "document",
                 new Dictionary<string, string>
@@ -1121,7 +1121,7 @@ namespace Telesharp.Common
 
         public Message SendDocumentFile(Chat chat, string fileName, IReplyMarkup replyMarkup)
         {
-            if (!File.Exists(fileName)) throw new FileNotFoundException();
+            if (!System.IO.File.Exists(fileName)) throw new FileNotFoundException();
             return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileName, Path.GetFileName(fileName),
                 "document",
                 new Dictionary<string, string>
@@ -1167,6 +1167,38 @@ namespace Telesharp.Common
                     {"chat_id", $"{chat.Id}"},
                     {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
                 });
+        }
+
+        #endregion
+
+        #region Get File
+
+        public File GetFile(string fileId)
+        {
+            return SendTRequest<File>(BuildUriForMethod("getFile"), new Dictionary<string, string>
+            {
+                {"file_id", fileId}
+            });
+        }
+
+        public File GetFile(FileBase file)
+        {
+            return SendTRequest<File>(BuildUriForMethod("getFile"), new Dictionary<string, string>
+            {
+                {"file_id", file.FileId}
+            });
+        }
+
+        public string GetFileUri(string fileId)
+        {
+            var f = GetFile(fileId);
+            return $"https://api.telegram.org/file/bot{Bot.Settings.Token}/{f.FilePath}";
+        }
+
+        public string GetFileUri(FileBase file)
+        {
+            var f = GetFile(file);
+            return $"https://api.telegram.org/file/bot{Bot.Settings.Token}/{f.FilePath}";
         }
 
         #endregion
@@ -1293,7 +1325,7 @@ namespace Telesharp.Common
         {
             try
             {
-                var bytes = File.ReadAllBytes(fileName);
+                var bytes = System.IO.File.ReadAllBytes(fileName);
                 var file = new FormUpload.FileParameter(bytes, tFileName, "multipart/form-data");
                 var fields = parametrs.ToDictionary(parametr => parametr.Key, parametr => (object) parametr.Value);
                 fields.Add(fFieldName, file);

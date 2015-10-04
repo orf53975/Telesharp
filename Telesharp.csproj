@@ -79,6 +79,7 @@
     <Compile Include="Common\Types\Contact.cs" />
     <Compile Include="Common\Types\Document.cs" />
     <Compile Include="Common\Types\File.cs" />
+    <Compile Include="Common\Types\FileBase.cs" />
     <Compile Include="Common\Types\ForceReply.cs" />
     <Compile Include="Common\Types\GroupChat.cs" />
     <Compile Include="Common\Types\Location.cs" />
