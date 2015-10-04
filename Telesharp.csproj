@@ -65,6 +65,7 @@
     <Compile Include="Common\BotTypes\ParseMessageEvent.cs" />
     <Compile Include="Common\BotTypes\SimpleComparer.cs" />
     <Compile Include="Common\Interfaces\ICommand.cs" />
+    <Compile Include="Common\Interfaces\IReplyMarkup.cs" />
     <Compile Include="Common\JsonConverters\UnixDateTimeConverter.cs" />
     <Compile Include="Common\Methods.cs" />
     <Compile Include="Common\TelesharpTypes\BotDiedEvent.cs" />
@@ -78,10 +79,13 @@
     <Compile Include="Common\Types\Contact.cs" />
     <Compile Include="Common\Types\Document.cs" />
     <Compile Include="Common\Types\File.cs" />
+    <Compile Include="Common\Types\ForceReply.cs" />
     <Compile Include="Common\Types\GroupChat.cs" />
     <Compile Include="Common\Types\Location.cs" />
     <Compile Include="Common\Types\Message.cs" />
     <Compile Include="Common\Types\PhotoSize.cs" />
+    <Compile Include="Common\Types\ReplyKeyboardHide.cs" />
+    <Compile Include="Common\Types\ReplyKeyboardMarkup.cs" />
     <Compile Include="Common\Types\Sticker.cs" />
     <Compile Include="Common\Types\Update.cs" />
     <Compile Include="Common\Types\User.cs" />

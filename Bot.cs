@@ -15,7 +15,7 @@ namespace Telesharp
     {
         public void Run()
         {
-            if(BotAlive) throw new InvalidOperationException("Bot already runned!");
+            if (BotAlive) throw new InvalidOperationException("Bot already runned!");
             if (Settings.InfoToConsole)
             {
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot...");
@@ -42,10 +42,10 @@ namespace Telesharp
                 Name = Settings.Name + " Thread"
             };
         }
-        
+
         public void Stop()
         {
-            if(!BotAlive) throw new InvalidOperationException("Bot already stopped!");
+            if (!BotAlive) throw new InvalidOperationException("Bot already stopped!");
             if (_stop) throw new InvalidOperationException("Bot already stops!");
             _stop = true;
             Telesharp.Logger.Log(LogType.Info, "Stopping bot...");
@@ -73,7 +73,7 @@ namespace Telesharp
                 }
                 foreach (var upd in updates)
                 {
-                    if(_stop) break;
+                    if (_stop) break;
                     // Invoke event
                     OnParseMessage(this, new ParseMessageEventArgs(upd.Message));
 
@@ -176,6 +176,7 @@ namespace Telesharp
         #endregion
 
         #region Variables
+
         private int _threads;
         private bool _stop;
         private bool _botRunAsSync;
