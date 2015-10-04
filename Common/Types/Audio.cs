@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
-    public class Audio : File
+    public class Audio : FileBase
     {
         /// <summary>
         ///     Duration of the audio in seconds as defined by sender

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
-    public class File
+    public class FileBase
     {
         /// <summary>
         ///     File size

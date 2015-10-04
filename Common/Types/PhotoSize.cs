@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
-    public class PhotoSize : File
+    public class PhotoSize : FileBase
     {
         /// <summary>
         ///     Photo width

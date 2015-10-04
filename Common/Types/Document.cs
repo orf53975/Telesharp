@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
-    public class Document : File
+    public class Document : FileBase
     {
         /// <summary>
         ///     Document thumbnail as defined by sender

@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
-    public class Video : File
+    public class Video : FileBase
     {
         /// <summary>
         ///     Video width as defined by sender
