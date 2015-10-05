@@ -5,7 +5,7 @@ using Telesharp.Common.JsonConverters;
 namespace Telesharp.Common.Types
 {
     /// <summary>
-    ///     Message
+    ///     This object represents a message.
     /// </summary>
     public class Message
     {

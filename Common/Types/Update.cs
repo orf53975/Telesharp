@@ -2,12 +2,27 @@
 
 namespace Telesharp.Common.Types
 {
+    /// <summary>
+    ///     This object represents an incoming update.
+    /// </summary>
     public class Update
     {
+        /// <summary>
+        ///     Update constructor
+        /// </summary>
         public Update() : this(-1, null)
         {
         }
 
+        /// <summary>
+        ///     Update constructor
+        /// </summary>
+        /// <param name="updateId">
+        ///     The update‘s unique identifier. Update identifiers start from a certain positive number and
+        ///     increase sequentially. This ID becomes especially handy if you’re using Webhooks, since it allows you to ignore
+        ///     repeated updates or to restore the correct update sequence, should they get out of order.
+        /// </param>
+        /// <param name="message">New incoming message of any kind — text, photo, sticker, etc.</param>
         public Update(int updateId, Message message)
         {
             Id = updateId;

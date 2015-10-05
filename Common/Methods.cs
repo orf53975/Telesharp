@@ -1203,6 +1203,30 @@ namespace Telesharp.Common
 
         #endregion
 
+        #region Get user profile photos
+
+        public UserProfilePhotos GetUserProfilePhotos(int userId, int offset = 0, int limit = 100)
+        {
+            return SendTRequest<UserProfilePhotos>(BuildUriForMethod("getUserProfilePhotos"), new Dictionary<string, string>()
+            {
+                { "user_id", $"{userId}" },
+                { "offset", $"{offset}" },
+                { "limit", $"{offset}" }
+            });
+        }
+
+        public UserProfilePhotos GetUserProfilePhotos(User user, int offset = 0, int limit = 100)
+        {
+            return SendTRequest<UserProfilePhotos>(BuildUriForMethod("getUserProfilePhotos"), new Dictionary<string, string>()
+            {
+                { "user_id", $"{user.Id}" },
+                { "offset", $"{offset}" },
+                { "limit", $"{offset}" }
+            });
+        }
+
+        #endregion
+
         #region Requests
 
         private bool SendTRequest(string uri)

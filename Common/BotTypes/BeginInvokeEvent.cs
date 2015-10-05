@@ -4,8 +4,16 @@ using Telesharp.Common.Types;
 
 namespace Telesharp.Common.BotTypes
 {
+    /// <summary>
+    /// Arguments for event, which invoked when command ready to invoke 
+    /// </summary>
     public class BeginInvokeEventArgs : EventArgs
     {
+        /// <summary>
+        ///     Constuctor for class of arguments for event, which invoked when command ready to invoke (ARGH)
+        /// </summary>
+        /// <param name="command">Command</param>
+        /// <param name="message">Message</param>
         public BeginInvokeEventArgs(ICommand command, Message message)
         {
             Command = command;
@@ -25,15 +33,20 @@ namespace Telesharp.Common.BotTypes
         public ICommand Command { get; set; }
 
         /// <summary>
-        ///     Refuse the perform
+        ///     Refuse the perform?
         /// </summary>
         public bool Refuse { get; set; }
 
         /// <summary>
-        ///     Run this command in one thread
+        ///     Run this command in one thread?
         /// </summary>
         public bool RunSync { get; set; }
     }
 
+    /// <summary>
+    /// Handler for BeginInvoke event
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     public delegate void BeginInvokeEventHandler(object sender, BeginInvokeEventArgs e);
 }

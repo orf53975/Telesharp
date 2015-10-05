@@ -11,10 +11,16 @@ namespace Telesharp.Common.BotTypes
     {
         public delegate void GetWebRequestEventHandler(object sender, GetWebRequestEventArgs e);
 
+        /// <summary>
+        ///     Create new Advanced WebClient
+        /// </summary>
         public AdvancedWebClient() : this(2000)
         {
         }
 
+        /// <summary>
+        ///     Create new Advanced WebClient
+        /// </summary>
         public AdvancedWebClient(int timeout)
         {
             Timeout = timeout;
@@ -24,7 +30,7 @@ namespace Telesharp.Common.BotTypes
         ///     Timeout in milliseconds
         /// </summary>
         public int Timeout { get; set; }
-
+        
         protected override WebRequest GetWebRequest(Uri address)
         {
             var request = base.GetWebRequest(address);
@@ -40,6 +46,12 @@ namespace Telesharp.Common.BotTypes
             return request;
         }
 
+        /// <summary>
+        /// Send POST to url
+        /// </summary>
+        /// <param name="uri">Uri</param>
+        /// <param name="fieldsAndValues">Fields and values</param>
+        /// <returns></returns>
         public string SendPOST(string uri, Dictionary<string, string> fieldsAndValues)
         {
             var collection = new NameValueCollection();
@@ -50,19 +62,18 @@ namespace Telesharp.Common.BotTypes
             return Encoding.UTF8.GetString(UploadValues(uri, collection));
         }
 
+        /// <summary>
+        /// Send GET to url
+        /// </summary>
+        /// <param name="uri">Uri</param>
+        /// <param name="fieldsAndValues">Fields and values</param>
+        /// <returns></returns>
         public string SendGET(string uri, Dictionary<string, string> fieldsAndValues)
         {
             var i = 0;
             foreach (var item in fieldsAndValues)
             {
-                if (i++ == 0)
-                {
-                    uri += "?";
-                }
-                else
-                {
-                    uri += "&";
-                }
+                uri += i++ == 0 ? "?" : "&";
                 uri += item.Key + "=" + HttpUtility.UrlEncode(item.Value);
             }
             return DownloadString(uri);

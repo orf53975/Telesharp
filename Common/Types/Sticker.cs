@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
+    /// <summary>
+    ///     This object represents a sticker.
+    /// </summary>
     public class Sticker : PhotoSize
     {
         /// <summary>

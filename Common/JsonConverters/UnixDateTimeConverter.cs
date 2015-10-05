@@ -68,7 +68,7 @@ namespace Telesharp.Common.JsonConverters
         }
     }
 
-    public class UnixDateTimeConverterHelper
+    class UnixDateTimeConverterHelper
     {
         /// <summary>
         ///     Convert a long into a DateTime

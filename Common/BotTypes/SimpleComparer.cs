@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using Telesharp.Common.Interfaces;
@@ -8,6 +7,9 @@ using Telesharp.Common.Types;
 
 namespace Telesharp.Common.BotTypes
 {
+    /// <summary>
+    ///     Simple comparer (yes, yes, yes. Very simple)
+    /// </summary>
     public class SimpleComparer : CommandComparer
     {
         public override bool Compare(ICommand command, Message message)
@@ -17,19 +19,11 @@ namespace Telesharp.Common.BotTypes
             {
                 case SimpleComparerCommand.Mode.IsSame:
                     if (PublicInstancePropertiesEqual(command.Prototype, message))
-                    {
                         return true;
-                    }
                     break;
                 case SimpleComparerCommand.Mode.BeginsWithTextFromOriginalMessage:
-                    if (message.Text == null)
-                    {
-                        return false;
-                    }
-                    if (message.Text.IndexOf(command.Prototype.Text, StringComparison.Ordinal) == 0)
-                    {
-                        return true;
-                    }
+                    if (message.Text == null) break;
+                    if (message.Text.StartsWith(command.Prototype.Text)) return true;
                     break;
                 case SimpleComparerCommand.Mode.ContainsTextFromOriginalMessage:
                     return message.Text != null && message.Text.Contains(command.Prototype.Text);
@@ -42,22 +36,22 @@ namespace Telesharp.Common.BotTypes
 
         public static bool PublicInstancePropertiesEqual<T>(T self, T to, params string[] ignore) where T : class
         {
-            if (self != null && to != null)
-            {
-                var type = typeof (T);
-                var ignoreList = new List<string>(ignore);
-                var unequalProperties = from pi in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-                    where !ignoreList.Contains(pi.Name)
-                    let selfValue = type.GetProperty(pi.Name).GetValue(self, null)
-                    let toValue = type.GetProperty(pi.Name).GetValue(to, null)
-                    where selfValue != toValue && (selfValue == null || !selfValue.Equals(toValue))
-                    select selfValue;
-                return !unequalProperties.Any();
-            }
-            return self == to;
+            if (self == null || to == null) return self == to;
+            var type = typeof (T);
+            var ignoreList = new List<string>(ignore);
+            var unequalProperties = from pi in type.GetProperties(BindingFlags.Public | BindingFlags.Instance)
+                where !ignoreList.Contains(pi.Name)
+                let selfValue = type.GetProperty(pi.Name).GetValue(self, null)
+                let toValue = type.GetProperty(pi.Name).GetValue(to, null)
+                where selfValue != toValue && (selfValue == null || !selfValue.Equals(toValue))
+                select selfValue;
+            return !unequalProperties.Any();
         }
     }
 
+    /// <summary>
+    ///     Command for <see cref="SimpleComparer" />
+    /// </summary>
     public class SimpleComparerCommand : ICommand
     {
         public enum Mode
@@ -78,6 +72,9 @@ namespace Telesharp.Common.BotTypes
             BeginsWithTextFromOriginalMessage
         }
 
+        /// <summary>
+        ///     Command constructor
+        /// </summary>
         public SimpleComparerCommand()
             : this(
                 new Message(-1, "/on"), "Nothing information, what can help you", Mode.BeginsWithTextFromOriginalMessage
@@ -85,7 +82,13 @@ namespace Telesharp.Common.BotTypes
         {
         }
 
-        public SimpleComparerCommand(Message prototype, string helpText, Mode compareMode = Mode.IsSame)
+        /// <summary>
+        ///     Command consturctor
+        /// </summary>
+        /// <param name="prototype">Prototype</param>
+        /// <param name="helpText">Helpful text</param>
+        /// <param name="compareMode">Compare mode</param>
+        public SimpleComparerCommand(Message prototype, string helpText = null, Mode compareMode = Mode.IsSame)
         {
             Prototype = prototype;
             CompareMode = compareMode;
@@ -100,13 +103,11 @@ namespace Telesharp.Common.BotTypes
         /// <summary>
         ///     Compare mode
         /// </summary>
-        [DefaultValue(2)]
         public Mode CompareMode { get; set; }
 
         /// <summary>
         ///     Helpful text
         /// </summary>
-        [DefaultValue("Nothing information, what can help you")]
         public string HelpText { get; set; }
 
         /// <summary>
@@ -114,6 +115,10 @@ namespace Telesharp.Common.BotTypes
         /// </summary>
         public Message Prototype { get; set; }
 
+        /// <summary>
+        ///     <see cref="ICommand.Executed" />
+        /// </summary>
+        /// <param name="message"></param>
         public virtual void Executed(Message message)
         {
             throw new NotImplementedException();

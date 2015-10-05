@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
+    /// <summary>
+    ///     This object represents a video file.
+    /// </summary>
     public class Video : FileBase
     {
         /// <summary>

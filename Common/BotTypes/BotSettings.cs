@@ -133,6 +133,9 @@ namespace Telesharp.Common.BotTypes
             }
         }
 
+        /// <summary>
+        ///     Get profile when bot awakens?
+        /// </summary>
         public bool GetProfile { get; set; } = true;
 
         /// <summary>
@@ -151,8 +154,14 @@ namespace Telesharp.Common.BotTypes
             }
         }
 
+        /// <summary>
+        ///     Proxy for Bot (if your ip will be blocked for various reasons (ERRAR 500!11 U CAN'T DO ANYTHING11!))
+        /// </summary>
         public WebProxy Proxy { get; set; }
 
+        /// <summary>
+        ///     Name for logger and thread
+        /// </summary>
         public string Name
         {
             get { return _name; }

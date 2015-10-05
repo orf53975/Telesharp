@@ -2,6 +2,9 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
+    /// <summary>
+    ///     This object represents a phone contact.
+    /// </summary>
     public class Contact
     {
         /// <summary>

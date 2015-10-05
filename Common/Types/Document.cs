@@ -2,10 +2,14 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
+    /// <summary>
+    ///     This object represents a general file (as opposed to <see cref="PhotoSize" />, <see cref="Audio" /> messages and
+    ///     audio files).
+    /// </summary>
     public class Document : FileBase
     {
         /// <summary>
-        ///     Document thumbnail as defined by sender
+        ///     Document thumbnail as defined by sender.
         /// </summary>
         [JsonProperty(PropertyName = "thumb")]
         public PhotoSize Thumb { get; set; }
