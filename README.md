@@ -45,7 +45,7 @@ It is needed? Vote [here](https://github.com/DaFri-Nochiterov/Telesharp/issues/1
 
 <b>Temporarily</b> not included:
 
-- [ ] [getUserProfilePhotos(Integer chat_id, [Optional] Integer offset, [Optional] Integer limit)](https://core.telegram.org/bots/api#getuserprofilephotos)
+- [x] [getUserProfilePhotos(Integer chat_id, [Optional] Integer offset, [Optional] Integer limit)](https://core.telegram.org/bots/api#getuserprofilephotos)
 - [ ] sendCustomRequest(String uri, Dictionary&lt;String, Object&gt; parametrs)
 
 You can get help on using the API bots [here](https://core.telegram.org/bots/api)
