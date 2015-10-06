@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("Telesharp")]
-[assembly: AssemblyDescription("Create bots for Telegram on C# simple")]
+[assembly: AssemblyDescription("Create your bots for Telegram on C#")]
 [assembly: AssemblyCompany("TOP-GAME")]
 [assembly: AssemblyProduct("Telesharp")]
 [assembly: AssemblyCopyright("Copyright © DaFri_Nochiterov's cat 2015")]
