@@ -31,7 +31,7 @@ Bot.WaitToDie();
 
 1. [Message listener](https://github.com/DaFri-Nochiterov/Telesharp/wiki/Create-message-listener-bot-and-upgrade-it-to-sticker-sender-bot#create-message-listener-bot-and-upgrade-it-to-sticker-sender-bot>)
 2. [Sticker-Sender bot](https://github.com/DaFri-Nochiterov/Telesharp/wiki/Create-message-listener-bot-and-upgrade-it-to-sticker-sender-bot#upgrade-bot)
-3. LIKE5 wallpapers bot - (soon...) 
+3. [LIKE5 wallpapers bot](https://github.com/DaFri-Nochiterov/LIKE5Bot_Telegram)
 
 #### API
 
