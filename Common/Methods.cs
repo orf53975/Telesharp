@@ -132,6 +132,8 @@ namespace Telesharp.Common
 
         #region Reply
 
+        #region Reply with Text
+
         public Message ReplyToMessage(Message message, string text)
         {
             return SendTRequest<Message>(BuildUriForMethod("sendMessage"), new Dictionary<string, string>
@@ -153,26 +155,64 @@ namespace Telesharp.Common
             });
         }
 
-        public Message ReplyToMessage(Message message, PhotoSize photo)
+        #endregion
+
+        #region Reply with Photo
+
+        public Message ReplyToMessage(Message message, PhotoSize photo, string caption = null)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), new Dictionary<string, string>
+            var fields = new Dictionary<string, string>
             {
                 {"photo", photo.FileId},
                 {"reply_to_message_id", $"{message.MessageId}"},
                 {"chat_id", $"{message.Chat.Id}"}
-            });
+            };
+            if(caption != null) fields.Add("caption", caption);
+            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
         }
 
-        public Message ReplyToMessage(Message message, PhotoSize photo, IReplyMarkup replyMarkup)
+        public Message ReplyToMessage(Message message, PhotoSize photo, IReplyMarkup replyMarkup, string caption = null)
         {
-            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), new Dictionary<string, string>
+            var fields = new Dictionary<string, string>
             {
                 {"photo", photo.FileId},
                 {"reply_to_message_id", $"{message.MessageId}"},
                 {"chat_id", $"{message.Chat.Id}"},
                 {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
-            });
+            };
+            if(caption != null) fields.Add("caption", caption);
+            return SendTRequest<Message>(BuildUriForMethod("sendPhoto"), fields);
         }
+
+        public Message ReplyToMessageWithPhotoFile(Message message, FileInfo fileInfo, string caption = null)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            var fields = new Dictionary<string, string>
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"}
+            };
+            return TeFileUpload<Message>(BuildUriForMethod("sendPhoto"), fileInfo.FullName, fileInfo.Name, "photo", fields);
+        }
+
+        public Message ReplyToMessageWithPhotoFile(Message message, FileInfo fileInfo, IReplyMarkup replyMarkup, string caption = null)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            var fields = new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"},
+                {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
+            };
+            if(caption != null) fields.Add("caption", caption);
+            return TeFileUpload<Message>(BuildUriForMethod("sendPhoto"), fileInfo.FullName, fileInfo.Name, "photo", fields);
+        }
+
+        #endregion
+
+        #region Reply with Audio
 
         public Message ReplyToMessage(Message message, Audio audio)
         {
@@ -195,6 +235,33 @@ namespace Telesharp.Common
             });
         }
 
+        public Message ReplyToMessageWithAudioFile(Message message, FileInfo fileInfo)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileInfo.FullName, fileInfo.Name, "audio", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"}
+            });
+        }
+
+        public Message ReplyToMessageWithAudioFile(Message message, FileInfo fileInfo, IReplyMarkup replyMarkup)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendAudio"), fileInfo.FullName, fileInfo.Name, "audio", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"},
+                {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
+            });
+        }
+
+        #endregion
+
+        #region Reply with Document
+
         public Message ReplyToMessage(Message message, Document document)
         {
             return SendTRequest<Message>(BuildUriForMethod("sendDocument"), new Dictionary<string, string>
@@ -215,6 +282,33 @@ namespace Telesharp.Common
                 {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
             });
         }
+
+        public Message ReplyToMessageWithDocumentFile(Message message, FileInfo fileInfo)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileInfo.FullName, fileInfo.Name, "document", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"}
+            });
+        }
+
+        public Message ReplyToMessageWithDocumentFile(Message message, FileInfo fileInfo, IReplyMarkup replyMarkup)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendDocument"), fileInfo.FullName, fileInfo.Name, "document", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"},
+                {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
+            });
+        }
+
+        #endregion
+
+        #region Reply with Sticker
 
         public Message ReplyToMessage(Message message, Sticker sticker)
         {
@@ -237,6 +331,33 @@ namespace Telesharp.Common
             });
         }
 
+        public Message ReplyToMessageWithStickerFile(Message message, FileInfo fileInfo)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendSticker"), fileInfo.FullName, fileInfo.Name, "sticker", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"}
+            });
+        }
+
+        public Message ReplyToMessageWithStickerFile(Message message, FileInfo fileInfo, IReplyMarkup replyMarkup)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendSticker"), fileInfo.FullName, fileInfo.Name, "sticker", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"},
+                {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
+            });
+        }
+
+        #endregion
+
+        #region Reply with Video
+
         public Message ReplyToMessage(Message message, Video video)
         {
             return SendTRequest<Message>(BuildUriForMethod("sendVideo"), new Dictionary<string, string>
@@ -257,6 +378,31 @@ namespace Telesharp.Common
                 {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
             });
         }
+
+        public Message ReplyToMessageWithVideoFile(Message message, FileInfo fileInfo)
+        {
+            return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileInfo.FullName, fileInfo.Name, "video", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"}
+            });
+        }
+
+        public Message ReplyToMessageWithVideoFile(Message message, FileInfo fileInfo, IReplyMarkup replyMarkup)
+        {
+            if (fileInfo == null || !fileInfo.Exists) throw new ArgumentNullException();
+            if (fileInfo.Attributes.HasFlag(FileAttributes.Directory)) throw new InvalidOperationException();
+            return TeFileUpload<Message>(BuildUriForMethod("sendVideo"), fileInfo.FullName, fileInfo.Name, "video", new Dictionary<string, string>()
+            {
+                {"reply_to_message_id", $"{message.MessageId}"},
+                {"chat_id", $"{message.Chat.Id}"},
+                {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
+            });
+        }
+
+        #endregion
+
+        #region Reply with Location
 
         public Message ReplyToMessage(Message message, Location location)
         {
@@ -280,6 +426,8 @@ namespace Telesharp.Common
                 {"reply_markup", JsonConvert.SerializeObject(replyMarkup)}
             });
         }
+
+        #endregion
 
         #endregion
 
