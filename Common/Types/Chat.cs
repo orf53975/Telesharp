@@ -11,6 +11,6 @@ namespace Telesharp.Common.Types
         ///     Unique identifier for this user, bot or chat.
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public int Id { get; set; }
+        public string Id { get; set; }
     }
 }

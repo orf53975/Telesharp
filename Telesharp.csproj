@@ -93,6 +93,7 @@
     <Compile Include="Common\Types\UserProfilePhotos.cs" />
     <Compile Include="Common\Types\Video.cs" />
     <Compile Include="Common\TelesharpInterfaces\ILogger.cs" />
+    <Compile Include="Common\Types\Voice.cs" />
     <Compile Include="Telesharp.cs" />
     <Compile Include="TelesharpLogger.cs" />
   </ItemGroup>

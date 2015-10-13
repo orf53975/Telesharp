@@ -160,10 +160,6 @@ namespace Telesharp
 
         public Bot(BotSettings settings)
         {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
             if (settings.Token == null)
             {
                 throw new NullReferenceException("No token in settings!");

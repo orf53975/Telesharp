@@ -41,7 +41,7 @@ namespace Telesharp.Common.Types
         /// <param name="username">User‘s or bot’s username</param>
         public User(int id, string firstName, string lastName, string username)
         {
-            Id = id;
+            Id = $"{id}";
             FirstName = firstName;
             LastName = lastName;
             UserName = username;

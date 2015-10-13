@@ -7,29 +7,44 @@ namespace Telesharp.Common.BotTypes
     /// <summary>
     ///     Settings of the Bot
     /// </summary>
+    [Serializable]
     public class BotSettings
     {
-        private string _cacheDir = Environment.CurrentDirectory + Path.DirectorySeparatorChar + "Cache" +
-                                   Path.DirectorySeparatorChar;
+        private string _cacheDir;
 
-        private int _checkUpdatesInterval = 500;
+        private int _checkUpdatesInterval;
 
         private bool _exceptionsToConsole;
 
-        private int _maxThreadsForCommands = -1;
+        private int _maxThreadsForCommands;
 
         private string _name;
 
-        private int _timeoutForRequest = 2000;
+        private int _timeoutForRequest;
 
-        private string _token = "";
+        private string _token;
 
         public BotSettings(string token, int updateInsterval)
         {
-            Token = token;
-            CheckUpdatesInterval = updateInsterval;
-            MaximumThreadsForCommands = -1;
+            _cacheDir = $"{Environment.CurrentDirectory}{Path.DirectorySeparatorChar}Cache{Path.DirectorySeparatorChar}";
+            _checkUpdatesInterval = 500;
+            _timeoutForRequest = 2000;
+            _maxThreadsForCommands = -1;
+            if (string.IsNullOrEmpty(token) || string.IsNullOrWhiteSpace(token))
+            {
+                throw new ArgumentNullException(nameof(token));
+            }
+            _token = token;
+            _checkUpdatesInterval = updateInsterval;
+            _maxThreadsForCommands = -1;
             _name = "bot" + (new Random()).Next(0, 999999);
+            _exceptionsToConsole = true;
+            GetProfile = true;
+            InfoToConsole = true;
+            RequestsToConsole = true;
+            ResponsesToConsole = false;
+            ExecuteCommandsSync = false;
+            Proxy = null;
         }
 
         public BotSettings(string token) : this(token, 1000)
@@ -136,7 +151,7 @@ namespace Telesharp.Common.BotTypes
         /// <summary>
         ///     Get profile when bot awakens?
         /// </summary>
-        public bool GetProfile { get; set; } = true;
+        public bool GetProfile { get; set; }
 
         /// <summary>
         ///     Timeout to send request
