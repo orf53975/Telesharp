@@ -7,3 +7,5 @@ Telesharp.csproj.user
 .vs
 *.suo
 suo
+Telesharp.opensdf
+*.sdf

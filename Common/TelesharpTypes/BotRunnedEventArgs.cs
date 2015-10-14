@@ -2,8 +2,6 @@
 
 namespace Telesharp.Common.TelesharpTypes
 {
-    public delegate void BotRunnedEventHandler(object sender, BotRunnedEventArgs e);
-
     public class BotRunnedEventArgs
     {
         public BotRunnedEventArgs()

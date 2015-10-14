@@ -10,21 +10,21 @@ namespace Telesharp.Common.Types
         /// <summary>
         ///     GroupChat constructor
         /// </summary>
-        public GroupChat(int id) : this(id, null)
+        public GroupChat(string id) : this(id, null)
         {
         }
 
         /// <summary>
         ///     GroupChat constructor
         /// </summary>
-        public GroupChat() : this(-1, null)
+        public GroupChat() : this("-1", null)
         {
         }
 
         /// <summary>
         ///     GroupChat constructor
         /// </summary>
-        public GroupChat(int id, string title)
+        public GroupChat(string id, string title)
         {
             Id = id;
             Title = title;
@@ -40,6 +40,6 @@ namespace Telesharp.Common.Types
         ///     Unique identifier for this group chat
         /// </summary>
         [JsonProperty(PropertyName = "id")]
-        public new int Id { get; set; }
+        public new string Id { get; set; }
     }
 }

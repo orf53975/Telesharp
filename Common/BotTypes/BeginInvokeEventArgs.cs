@@ -5,7 +5,7 @@ using Telesharp.Common.Types;
 namespace Telesharp.Common.BotTypes
 {
     /// <summary>
-    /// Arguments for event, which invoked when command ready to invoke 
+    ///     Arguments for event, which invoked when command ready to invoke
     /// </summary>
     public class BeginInvokeEventArgs : EventArgs
     {
@@ -42,11 +42,4 @@ namespace Telesharp.Common.BotTypes
         /// </summary>
         public bool RunSync { get; set; }
     }
-
-    /// <summary>
-    /// Handler for BeginInvoke event
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="e"></param>
-    public delegate void BeginInvokeEventHandler(object sender, BeginInvokeEventArgs e);
 }

@@ -2,8 +2,6 @@
 
 namespace Telesharp.Common.TelesharpTypes
 {
-    public delegate void BotDiedEventHandler(object sender, BotDiedEventArgs e);
-
     public class BotDiedEventArgs : EventArgs
     {
         public BotDiedEventArgs(Exception exception)

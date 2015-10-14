@@ -59,20 +59,26 @@
     <Compile Include="Common\BotTypes\AdvancedWebClient.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Common\BotTypes\BeginInvokeEvent.cs" />
+    <Compile Include="Common\BotTypes\BeginInvokeEventArgs.cs" />
+    <Compile Include="Common\BotTypes\BeginInvokeEventHandler.cs" />
     <Compile Include="Common\BotTypes\BotSettings.cs" />
     <Compile Include="Common\BotTypes\CommandComparer.cs" />
-    <Compile Include="Common\BotTypes\ParseMessageEvent.cs" />
+    <Compile Include="Common\BotTypes\ParseMessageEventArgs.cs" />
+    <Compile Include="Common\BotTypes\ParseMessageEventHandler.cs" />
     <Compile Include="Common\BotTypes\SimpleComparer.cs" />
+    <Compile Include="Common\BotTypes\SimpleComparerCommand.cs" />
     <Compile Include="Common\Interfaces\ICommand.cs" />
     <Compile Include="Common\Interfaces\IReplyMarkup.cs" />
     <Compile Include="Common\JsonConverters\UnixDateTimeConverter.cs" />
-    <Compile Include="Common\Methods.cs" />
-    <Compile Include="Common\TelesharpTypes\BotDiedEvent.cs" />
+    <Compile Include="Common\JsonConverters\UnixDateTimeConverterHelper.cs" />
+    <Compile Include="Common\TelegramBotMethods.cs" />
+    <Compile Include="Common\TelesharpTypes\BotDiedEventArgs.cs" />
+    <Compile Include="Common\TelesharpTypes\BotDiedEventHandler.cs" />
     <Compile Include="Common\TelesharpTypes\BotExitType.cs" />
-    <Compile Include="Common\TelesharpTypes\BotRunnedEvent.cs" />
+    <Compile Include="Common\TelesharpTypes\BotRunnedEventArgs.cs" />
+    <Compile Include="Common\TelesharpTypes\BotRunnedEventHandler.cs" />
     <Compile Include="Common\TelesharpTypes\BotRunnedState.cs" />
-    <Compile Include="Common\TelesharpTypes\FormUploader.cs" />
+    <Compile Include="Common\TelesharpTypes\FormUpload.cs" />
     <Compile Include="Common\TelesharpTypes\LogType.cs" />
     <Compile Include="Common\Types\Audio.cs" />
     <Compile Include="Common\Types\Chat.cs" />

@@ -30,7 +30,7 @@ namespace Telesharp.Common.BotTypes
         ///     Timeout in milliseconds
         /// </summary>
         public int Timeout { get; set; }
-        
+
         protected override WebRequest GetWebRequest(Uri address)
         {
             var request = base.GetWebRequest(address);
@@ -47,7 +47,7 @@ namespace Telesharp.Common.BotTypes
         }
 
         /// <summary>
-        /// Send POST to url
+        ///     Send POST to url
         /// </summary>
         /// <param name="uri">Uri</param>
         /// <param name="fieldsAndValues">Fields and values</param>
@@ -63,7 +63,7 @@ namespace Telesharp.Common.BotTypes
         }
 
         /// <summary>
-        /// Send GET to url
+        ///     Send GET to url
         /// </summary>
         /// <param name="uri">Uri</param>
         /// <param name="fieldsAndValues">Fields and values</param>

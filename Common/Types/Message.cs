@@ -136,6 +136,7 @@ namespace Telesharp.Common.Types
         /// <summary>
         ///     Message is a shared location, information about the location
         /// </summary>
+        [JsonProperty(PropertyName = "location")]
         public Location Location { get; set; }
 
         /// <summary>
