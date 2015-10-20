@@ -20,7 +20,6 @@ namespace Telesharp.Common
         public TelegramBotMethods(Bot bot)
         {
             Bot = bot;
-            WebClient = CreateWebClient();
         }
 
         private Bot Bot { get; }
@@ -1058,13 +1057,11 @@ namespace Telesharp.Common
 
         #region Requests
 
-        private AdvancedWebClient WebClient { get; set; }
-
         private bool SendTRequest(string uri)
         {
             try
             {
-                WebClient.DownloadString(uri);
+                CreateWebClient().DownloadString(uri);
                 return true;
             }
             catch (Exception exc)
@@ -1085,7 +1082,7 @@ namespace Telesharp.Common
         {
             try
             {
-                WebClient.SendGET(uri, parametrs);
+                CreateWebClient().SendGET(uri, parametrs);
                 return true;
             }
             catch (Exception exc)
@@ -1128,7 +1125,7 @@ namespace Telesharp.Common
             try
             {
                 //var wc = CreateWebClient();
-                var token = JToken.Parse(WebClient.SendGET(uri, parametrs));
+                var token = JToken.Parse(CreateWebClient().SendGET(uri, parametrs));
                 return token["result"].ToObject<T>();
             }
             catch (WebException exc)
@@ -1254,12 +1251,6 @@ namespace Telesharp.Common
                 client.Proxy = Bot.Settings.Proxy;
             }
             return client;
-        }
-
-        public void RecreateWebClient()
-        {
-            while (WebClient.IsBusy) { }
-            WebClient = CreateWebClient();
         }
 
         #endregion
