@@ -44,7 +44,6 @@ namespace Telesharp.Common.TelesharpTypes
             using (var requestStream = request.GetRequestStream())
             {
                 requestStream.Write(formData, 0, formData.Length);
-                requestStream.Close();
             }
 
             return request.GetResponse() as HttpWebResponse;

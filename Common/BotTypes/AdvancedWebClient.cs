@@ -81,7 +81,7 @@ namespace Telesharp.Common.BotTypes
 
         public event GetWebRequestEventHandler OnGetWebRequest = delegate { };
 
-        public class GetWebRequestEventArgs
+        public class GetWebRequestEventArgs : EventArgs
         {
             private WebRequest _request;
 

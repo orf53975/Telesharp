@@ -2,7 +2,7 @@
 
 namespace Telesharp.Common.TelesharpTypes
 {
-    public class BotRunnedEventArgs
+    public class BotRunnedEventArgs : EventArgs
     {
         public BotRunnedEventArgs()
         {
