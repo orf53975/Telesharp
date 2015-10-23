@@ -71,8 +71,9 @@ namespace Telesharp
                     //Telesharp.Logger.Log(LogType.Warning, Settings.Name, "Can't get updates!");
                     continue; // We just continue
                 }
-                foreach (var upd in updates)
+                for (var index = 0; index < updates.Length; index++)
                 {
+                    var upd = updates[index];
                     if (_stop) break;
                     // Invoke event
                     OnParseMessage(this, new ParseMessageEventArgs(upd.Message));

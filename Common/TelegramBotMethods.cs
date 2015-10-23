@@ -379,13 +379,13 @@ namespace Telesharp.Common
 
         #region Send Audio
 
-        public Message SendAudio(string chatId, Voice voice, string performer = null, string title = null,
+        public Message SendAudio(string chatId, Audio audio, string performer = null, string title = null,
             IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
             {
                 ["chatId"] = chatId,
-                ["audio"] = voice.FileId
+                ["audio"] = audio.FileId
             };
             if (performer != null) fields.Add("performer", performer);
             if (title != null) fields.Add("title", title);
@@ -393,13 +393,13 @@ namespace Telesharp.Common
             return SendTRequest<Message>(BuildUriForMethod("sendAudio"), fields);
         }
 
-        public Message SendAudio(Chat chat, Voice voice, string performer = null, string title = null,
+        public Message SendAudio(Chat chat, Audio audio, string performer = null, string title = null,
             IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
             {
                 ["chatId"] = chat.Id,
-                ["audio"] = voice.FileId
+                ["audio"] = audio.FileId
             };
             if (performer != null) fields.Add("performer", performer);
             if (title != null) fields.Add("title", title);
@@ -407,13 +407,13 @@ namespace Telesharp.Common
             return SendTRequest<Message>(BuildUriForMethod("sendAudio"), fields);
         }
 
-        public Message SendAudio(string chatId, string voiceId, string performer = null, string title = null,
+        public Message SendAudio(string chatId, string audioId, string performer = null, string title = null,
             IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
             {
                 ["chatId"] = chatId,
-                ["audio"] = voiceId
+                ["audio"] = audioId
             };
             if (performer != null) fields.Add("performer", performer);
             if (title != null) fields.Add("title", title);
@@ -421,13 +421,13 @@ namespace Telesharp.Common
             return SendTRequest<Message>(BuildUriForMethod("sendAudio"), fields);
         }
 
-        public Message SendAudio(Chat chat, string voiceId, string performer = null, string title = null,
+        public Message SendAudio(Chat chat, string audioId, string performer = null, string title = null,
             IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
             {
                 ["chatId"] = chat.Id,
-                ["audio"] = voiceId
+                ["audio"] = audioId
             };
             if (performer != null) fields.Add("performer", performer);
             if (title != null) fields.Add("title", title);
