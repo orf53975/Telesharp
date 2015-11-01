@@ -46,6 +46,7 @@ It is needed? Vote [here](https://github.com/DaFri-Nochiterov/Telesharp/issues/1
 <b>Temporarily</b> not included:
 - [ ] sendCustomRequest(String uri, Dictionary&lt;String, Object&gt; parametrs)
 - [x] [sendVoice(Integer chat_id, InputFile voice, [Optional] duration, [Optional] reply_to_message_id, [Optional] reply_markup)](https://core.telegram.org/bots/api#sendvoice)
+
 You can get help on using the API bots [here](https://core.telegram.org/bots/api)
 
 [Bots FAQ](https://core.telegram.org/bots/faq)
