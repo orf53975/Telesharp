@@ -13,9 +13,10 @@ namespace Telesharp
 {
     public class Bot
     {
-        public void Run()
+        public void Start()
         {
-            if (BotAlive) throw new InvalidOperationException("Bot already runned!");
+            if (_botThread?.IsAlive != null && (bool)_botThread?.IsAlive) throw new InvalidOperationException("Bot already started!");
+            if (_botRunAsSync) throw new InvalidOperationException("Bot already started sync!");
             if (Settings.InfoToConsole)
             {
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot...");
@@ -24,9 +25,10 @@ namespace Telesharp
             _botThread?.Start();
         }
 
-        public void RunSync()
+        public void StartSync()
         {
-            if (BotAlive) throw new InvalidOperationException("Bot already runned!");
+            if (_botRunAsSync) throw new InvalidOperationException("Bot already started!");
+            if (_botThread?.IsAlive != null && (bool)_botThread?.IsAlive) throw new InvalidOperationException("Bot already started async!");
             if (Settings.InfoToConsole)
             {
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot sync...");
@@ -34,15 +36,6 @@ namespace Telesharp
             _botRunAsSync = true;
             Work();
         }
-
-        private void PrepareThread()
-        {
-            _botThread = new Thread(Work)
-            {
-                Name = Settings.Name + " Thread"
-            };
-        }
-
         public void Stop()
         {
             if (!BotAlive) throw new InvalidOperationException("Bot already stopped!");
@@ -52,6 +45,7 @@ namespace Telesharp
         }
 
         public event ParseMessageEventHandler OnParseMessage = delegate { };
+
         public event BeginInvokeEventHandler BegineInvokeCommand = delegate { };
 
         private void Work()
@@ -62,6 +56,7 @@ namespace Telesharp
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Exit");
                 return;
             }
+            _loaded = true;
             Telesharp.InvokeBotRunnedEvent(this, new BotRunnedEventArgs());
             while (!_stop)
             {
@@ -96,6 +91,14 @@ namespace Telesharp
                 // Wait to next update...
                 Thread.Sleep(Settings.CheckUpdatesInterval);
             }
+        }
+
+        private void PrepareThread()
+        {
+            _botThread = new Thread(Work)
+            {
+                Name = Settings.Name + " Thread"
+            };
         }
 
         private ICommand FindCommand(Message message)
@@ -170,10 +173,11 @@ namespace Telesharp
             Commands = new List<ICommand>();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Variables
 
+        private bool _loaded;
         private int _threads;
         private bool _stop;
         private bool _botRunAsSync;
@@ -184,9 +188,8 @@ namespace Telesharp
         public User Me { get; set; }
         public TelegramBotMethods Methods { get; set; }
 
+        public bool BotAlive => (_botRunAsSync && _loaded) || (_botThread != null && _botThread.IsAlive && _loaded);
 
-        public bool BotAlive => _botRunAsSync || (_botThread != null && _botThread.IsAlive);
-
-        #endregion
+        #endregion Variables
     }
 }

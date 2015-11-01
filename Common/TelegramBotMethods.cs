@@ -125,7 +125,7 @@ namespace Telesharp.Common
 
         #region Send Text Message
 
-        public Message SendMessage(string chatId, string text, bool disableWebPagePreview = false,
+        public Message SendMessage(string chatId, string text, bool markdown = false, bool disableWebPagePreview = false,
             IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
@@ -134,11 +134,12 @@ namespace Telesharp.Common
                 ["text"] = text,
                 ["disable_web_page_preview"] = $"{disableWebPagePreview}"
             };
+            if (markdown) fields.Add("parse_mode", "markdown");
             if (replyMarkup != null) fields.Add("reply_markup", JsonConvert.SerializeObject(replyMarkup));
             return SendTRequest<Message>(BuildUriForMethod("sendMessage"), fields);
         }
 
-        public Message SendMessage(Chat chat, string text, bool disableWebPagePreview = false,
+        public Message SendMessage(Chat chat, string text, bool markdown = false, bool disableWebPagePreview = false,
             IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
@@ -147,6 +148,7 @@ namespace Telesharp.Common
                 ["text"] = text,
                 ["disable_web_page_preview"] = $"{disableWebPagePreview}"
             };
+            if (markdown) fields.Add("parse_mode", "markdown");
             if (replyMarkup != null) fields.Add("reply_markup", JsonConvert.SerializeObject(replyMarkup));
             return SendTRequest<Message>(BuildUriForMethod("sendMessage"), fields);
         }
@@ -157,7 +159,7 @@ namespace Telesharp.Common
 
         #region Reply with Text
 
-        public Message ReplyToMessage(Message message, string text, IReplyMarkup replyMarkup = null)
+        public Message ReplyToMessage(Message message, string text, bool markdown = false, IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
             {
@@ -168,6 +170,7 @@ namespace Telesharp.Common
                 ["reply_to_message_id"] = $"{message.MessageId}",
                 ["chat_id"] = message.Chat.Id
             };
+            if (markdown) fields.Add("parse_mode", "markdown");
             if (replyMarkup != null) fields.Add("reply_markup", JsonConvert.SerializeObject(replyMarkup));
             return SendTRequest<Message>(BuildUriForMethod("sendMessage"), fields);
         }
@@ -1125,7 +1128,8 @@ namespace Telesharp.Common
             try
             {
                 //var wc = CreateWebClient();
-                var token = JToken.Parse(CreateWebClient().SendGET(uri, parametrs));
+                var s = CreateWebClient().SendGET(uri, parametrs);
+                var token = JToken.Parse(s);
                 return token["result"].ToObject<T>();
             }
             catch (WebException exc)
