@@ -15,7 +15,7 @@ namespace Telesharp.Common
 {
     public class TelegramBotMethods
     {
-        private int _updateOffset;
+        private long _updateOffset;
 
         public TelegramBotMethods(Bot bot)
         {
@@ -111,7 +111,7 @@ namespace Telesharp.Common
             }
         }
 
-        public Update[] GetUpdates(int offset, int limit = 100, int timeout = 0)
+        public Update[] GetUpdates(long offset, int limit = 100, int timeout = 0)
         {
             return SendTRequest<Update[]>(BuildUriForMethod("getUpdates"), new Dictionary<string, string>
             {
@@ -1000,6 +1000,32 @@ namespace Telesharp.Common
 
         #endregion
 
+        #region Get user profile photos
+
+        public UserProfilePhotos GetUserProfilePhotos(int userId, int offset = 0, int limit = 100)
+        {
+            return SendTRequest<UserProfilePhotos>(BuildUriForMethod("getUserProfilePhotos"),
+                new Dictionary<string, string>
+                {
+                    ["user_id"] = $"{userId}",
+                    ["offset"] = $"{offset}",
+                    ["limit"] = $"{limit}"
+                });
+        }
+
+        public UserProfilePhotos GetUserProfilePhotos(User user, int offset = 0, int limit = 100)
+        {
+            return SendTRequest<UserProfilePhotos>(BuildUriForMethod("getUserProfilePhotos"),
+                new Dictionary<string, string>
+                {
+                    ["user_id"] = user.Id,
+                    ["offset"] = $"{offset}",
+                    ["limit"] = $"{limit}"
+                });
+        }
+
+        #endregion
+
         #region Get File
 
         public File GetFile(string fileId)
@@ -1028,32 +1054,6 @@ namespace Telesharp.Common
         {
             var f = GetFile(file);
             return $"https://api.telegram.org/file/bot{Bot.Settings.Token}/{f.FilePath}";
-        }
-
-        #endregion
-
-        #region Get user profile photos
-
-        public UserProfilePhotos GetUserProfilePhotos(int userId, int offset = 0, int limit = 100)
-        {
-            return SendTRequest<UserProfilePhotos>(BuildUriForMethod("getUserProfilePhotos"),
-                new Dictionary<string, string>
-                {
-                    ["user_id"] = $"{userId}",
-                    ["offset"] = $"{offset}",
-                    ["limit"] = $"{limit}"
-                });
-        }
-
-        public UserProfilePhotos GetUserProfilePhotos(User user, int offset = 0, int limit = 100)
-        {
-            return SendTRequest<UserProfilePhotos>(BuildUriForMethod("getUserProfilePhotos"),
-                new Dictionary<string, string>
-                {
-                    ["user_id"] = user.Id,
-                    ["offset"] = $"{offset}",
-                    ["limit"] = $"{limit}"
-                });
         }
 
         #endregion

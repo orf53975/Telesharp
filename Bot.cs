@@ -46,7 +46,7 @@ namespace Telesharp
 
         public event ParseMessageEventHandler OnParseMessage = delegate { };
 
-        public event BeginInvokeEventHandler BegineInvokeCommand = delegate { };
+        public event BeginInvokeEventHandler BeginInvokeCommand = delegate { };
 
         private void Work()
         {
@@ -57,7 +57,7 @@ namespace Telesharp
                 return;
             }
             _loaded = true;
-            Telesharp.InvokeBotRunnedEvent(this, new BotRunnedEventArgs());
+            Telesharp.InvokeBotRunnedEvent(this, new BotRunnedEventArgs {Exception = null});
             while (!_stop)
             {
                 var updates = Methods.GetUpdates();
@@ -79,7 +79,7 @@ namespace Telesharp
 
                     // Invoke event
                     var eventargs = new BeginInvokeEventArgs(command, upd.Message);
-                    BegineInvokeCommand(this, eventargs);
+                    BeginInvokeCommand(this, eventargs);
 
                     // Check for refuse to execute
                     if (eventargs.Refuse) continue;

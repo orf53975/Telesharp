@@ -64,5 +64,8 @@ namespace Telesharp.Common.Types
         /// </summary>
         [JsonProperty(PropertyName = "username")]
         public string UserName { get; set; }
+
+        [JsonProperty(PropertyName = "title")]
+        private new string Title { get; set; }
     }
 }

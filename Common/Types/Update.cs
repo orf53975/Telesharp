@@ -23,7 +23,7 @@ namespace Telesharp.Common.Types
         ///     repeated updates or to restore the correct update sequence, should they get out of order.
         /// </param>
         /// <param name="message">New incoming message of any kind — text, photo, sticker, etc.</param>
-        public Update(int updateId, Message message)
+        public Update(long updateId, Message message)
         {
             Id = updateId;
             Message = message;
@@ -35,7 +35,7 @@ namespace Telesharp.Common.Types
         ///     restore the correct update sequence, should they get out of order.
         /// </summary>
         [JsonProperty(PropertyName = "update_id")]
-        public int Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         ///     New incoming message of any kind — text, photo, sticker, etc.

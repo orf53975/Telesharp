@@ -15,5 +15,9 @@ namespace Telesharp.Common.Types
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
+
+
+        [JsonProperty("title")]
+        public string Title { get; set; }
     }
 }

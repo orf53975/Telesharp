@@ -2,6 +2,10 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
+
+    // TODO: Check for CastException
+    // TODO: Remove?
+
     /// <summary>
     ///     This object represents a group chat.
     /// </summary>
@@ -34,7 +38,7 @@ namespace Telesharp.Common.Types
         ///     Group name
         /// </summary>
         [JsonProperty(PropertyName = "title")]
-        public string Title { get; set; }
+        public new string Title { get; set; }
 
         /// <summary>
         ///     Unique identifier for this group chat

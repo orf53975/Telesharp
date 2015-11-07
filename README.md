@@ -1,5 +1,5 @@
 ### Telesharp 
-Telesharp is libary, which can help you to create bots for Telegram with C#.
+Telesharp is library, which can help you to create bots for Telegram with C#.
 
 #### Creating bots
 <b>Use the token sent by [@BotFather](http://telegram.me/BotFather)</b>
