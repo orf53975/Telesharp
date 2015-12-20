@@ -2,7 +2,6 @@ using Newtonsoft.Json;
 
 namespace Telesharp.Common.Types
 {
-
     // TODO: Check for CastException
     // TODO: Remove?
 

@@ -37,7 +37,7 @@ namespace Telesharp.Common.BotTypes
             _token = token;
             _checkUpdatesInterval = updateInsterval;
             _maxThreadsForCommands = -1;
-            _name = "bot" + (new Random()).Next(0, 999999);
+            _name = "bot" + new Random().Next(0, 999999);
             _exceptionsToConsole = true;
             GetProfile = true;
             InfoToConsole = true;

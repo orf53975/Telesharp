@@ -159,7 +159,8 @@ namespace Telesharp.Common
 
         #region Reply with Text
 
-        public Message ReplyToMessage(Message message, string text, bool markdown = false, IReplyMarkup replyMarkup = null)
+        public Message ReplyToMessage(Message message, string text, bool markdown = false,
+            IReplyMarkup replyMarkup = null)
         {
             var fields = new Dictionary<string, string>
             {
@@ -1141,10 +1142,17 @@ namespace Telesharp.Common
                     using (var reader = new StreamReader(exc.Response.GetResponseStream()))
                     {
                         var result = reader.ReadToEnd();
-                        var token = JToken.Parse(result);
-                        if (token["ok"].ToObject<bool>() == false)
+                        try
                         {
-                            Telesharp.Logger.Log(LogType.Error, "Telegram sent failure code: \n" + result);
+                            var token = JToken.Parse(result);
+                            if (token["ok"].ToObject<bool>() == false)
+                            {
+                                Telesharp.Logger.Log(LogType.Error, "Telegram sent failure code: \n" + result);
+                            }
+                        }
+                        catch
+                        {
+                            Telesharp.Logger.Log(LogType.Error, "TRequestFail - Text", result);
                         }
                     }
                 }

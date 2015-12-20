@@ -15,7 +15,8 @@ namespace Telesharp
     {
         public void Start()
         {
-            if (_botThread?.IsAlive != null && (bool)_botThread?.IsAlive) throw new InvalidOperationException("Bot already started!");
+            if (_botThread?.IsAlive != null && (bool) _botThread?.IsAlive)
+                throw new InvalidOperationException("Bot already started!");
             if (_botRunAsSync) throw new InvalidOperationException("Bot already started sync!");
             if (Settings.InfoToConsole)
             {
@@ -28,7 +29,8 @@ namespace Telesharp
         public void StartSync()
         {
             if (_botRunAsSync) throw new InvalidOperationException("Bot already started!");
-            if (_botThread?.IsAlive != null && (bool)_botThread?.IsAlive) throw new InvalidOperationException("Bot already started async!");
+            if (_botThread?.IsAlive != null && (bool) _botThread?.IsAlive)
+                throw new InvalidOperationException("Bot already started async!");
             if (Settings.InfoToConsole)
             {
                 Telesharp.Logger.Log(LogType.Info, Settings.Name, "Running bot sync...");
@@ -36,6 +38,7 @@ namespace Telesharp
             _botRunAsSync = true;
             Work();
         }
+
         public void Stop()
         {
             if (!BotAlive) throw new InvalidOperationException("Bot already stopped!");

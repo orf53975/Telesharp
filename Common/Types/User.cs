@@ -65,6 +65,9 @@ namespace Telesharp.Common.Types
         [JsonProperty(PropertyName = "username")]
         public string UserName { get; set; }
 
+        /// <summary>
+        ///     Title of the chat
+        /// </summary>
         [JsonProperty(PropertyName = "title")]
         private new string Title { get; set; }
     }

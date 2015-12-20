@@ -164,7 +164,7 @@ namespace Telesharp.Common.Types
         public PhotoSize[] NewChatPhoto { get; set; }
 
         /// <summary>
-        ///     Informs that the group photo was deleted
+		///     Service message: the chat photo was deleted
         /// </summary>
         [JsonProperty(PropertyName = "delete_chat_photo")]
         public bool DeleteChatPhoto { get; set; }
@@ -174,5 +174,23 @@ namespace Telesharp.Common.Types
         /// </summary>
         [JsonProperty(PropertyName = "group_chat_created")]
         public bool GroupChatCreated { get; set; }
+
+		/// <summary>
+		/// 	Service message: the supergroup has been created
+		/// </summary>
+		/// <value><c>true</c> if super group chat created; otherwise, <c>false</c>.</value>
+		public bool SuperGroupChatCreated { get; set; }
+
+		/// <summary>
+		/// 	Service message: the channel has been created
+		/// </summary>
+		/// <value><c>true</c> if channel chat created; otherwise, <c>false</c>.</value>
+		public bool ChannelChatCreated { get; set; }
+
+		/// <summary>
+		/// 	The group has been migrated to a supergroup with the specified identifier, not exceeding 1e13 by absolute value
+		/// </summary>
+		/// <value>New chat id</value>
+		public int MigrateToChatId { get; set; }
     }
 }
