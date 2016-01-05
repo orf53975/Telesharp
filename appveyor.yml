@@ -1,0 +1,8 @@
+platform: Any CPU
+configuration: Release
+
+build:
+  parallel: true
+  project: Telesharp.sln
+before_build:
+  - nuget restore
