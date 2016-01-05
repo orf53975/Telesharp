@@ -44,9 +44,15 @@ namespace Telesharp.Common.Types
 		public Message Message { get; set; }
 
 		/// <summary>
-		/// 	New incoming inline query
+		/// 	New incoming inline query.
 		/// </summary>
 		[JsonProperty(PropertyName = "inline_query")]
 		public InlineQuery InlineQuery { get; set; }
+
+		/// <summary>
+		/// 	The result of a inline query that was chosen by a user and sent to their chat partner.
+		/// </summary>
+		[JsonProperty(PropertyName = "chosen_inline_result")]
+		public ChosenInlineResult ChosenInlineResult { get; set; }
 	}
 }

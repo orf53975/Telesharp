@@ -53,6 +53,8 @@ namespace Telesharp
 
 		public event GotInlineQueryEventHandler GotInlineQuery = delegate { };
 
+		public event GotChosenResultEventHandler GotChosenInlineResult = delegate { };
+
 		private void Work()
 		{
 			if (Settings.GetProfile && (Me = Methods.GetMe()) == null)
@@ -79,6 +81,10 @@ namespace Telesharp
 						if(upd.InlineQuery != null){
 							GotInlineQuery(this, new GotInlineQueryEventArgs(upd.InlineQuery));
 						}
+						else if (upd.ChosenInlineResult != null){
+							GotChosenInlineResult(this, new GotChosenResultEventArgs(upd.ChosenInlineResult));
+						}
+						continue;
 					}
 					// Invoke event
 					OnParseMessage(this, new ParseMessageEventArgs(upd.Message));
