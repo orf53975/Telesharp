@@ -1,4 +1,4 @@
-### Telesharp 
+### Telesharp [![Build Status](https://travis-ci.org/DaFri-Nochiterov/Telesharp.svg?branch=master)](https://travis-ci.org/DaFri-Nochiterov/Telesharp)
 Telesharp is library, which can help you to create bots for Telegram with C#.
 
 #### Creating bots
