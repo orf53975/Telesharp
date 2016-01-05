@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Telesharp
+namespace Telesharp.Common.Types
 {
 	public class InlineQuery
 	{

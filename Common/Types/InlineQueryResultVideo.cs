@@ -11,13 +11,13 @@ namespace Telesharp.Common.Types {
 		/// 	Type of the result
 		/// </summary>
 		[JsonProperty(PropertyName = "type")]
-		public string Type { get; private set; } = "mpeg4_gif"; 
+		public new string Type { get; private set; } = "mpeg4_gif"; 
 
 		/// <summary>
 		/// 	Unique identifier for this result, 1-64 Bytes
 		/// </summary>
 		[JsonProperty(PropertyName = "id")]
-		public string Id { get; set; }
+		public new string Id { get; set; }
 
 		/// <summary>
 		/// 	Title of the result

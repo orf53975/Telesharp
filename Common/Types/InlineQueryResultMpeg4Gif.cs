@@ -6,18 +6,18 @@ namespace Telesharp.Common.Types {
 	/// <summary>
 	///		This object represents one result of an inline query. This is base class
 	/// </summary>
-	public class InlineQueryResultPhoto : InlineQueryResult {
+	public class InlineQueryResultMpeg4Gif : InlineQueryResult {
 		/// <summary>
 		/// 	Type of the result
 		/// </summary>
 		[JsonProperty(PropertyName = "type")]
-		public string Type { get; private set; } = "mpeg4_gif"; 
+		public new string Type { get; private set; } = "mpeg4_gif"; 
 
 		/// <summary>
 		/// 	Unique identifier for this result, 1-64 Bytes
 		/// </summary>
 		[JsonProperty(PropertyName = "id")]
-		public string Id { get; set; }
+		public new string Id { get; set; }
 
 		/// <summary>
 		/// 	Title of the result

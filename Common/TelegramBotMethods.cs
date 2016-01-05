@@ -1007,10 +1007,10 @@ namespace Telesharp.Common
 		{
 			var fields = new Dictionary<string, string>
 			{
-				["inline_query_id"] = InlineQueryId,
-				["results"] = JsonConvert.SerializeObject(replyMarkup),
-				["cache_time"] = cacheTime,
-				["is_personal"] = isPersonal
+				["inline_query_id"] = inlineQueryId,
+				["results"] = JsonConvert.SerializeObject(results),
+				["cache_time"] = $"cacheTime",
+				["is_personal"] = $"isPersonal"
 			};
 			if(nextOffset != null) fields.Add("next_offset", nextOffset);
 			return SendTRequest<bool>(BuildUriForMethod("sendDocument"), fields);
@@ -1141,7 +1141,7 @@ namespace Telesharp.Common
 			}
 		}
 
-		private T SendTRequest<T>(string uri, Dictionary<string, string> parametrs) where T : class
+		private T SendTRequest<T>(string uri, Dictionary<string, string> parametrs)
 		{
 			try
 			{

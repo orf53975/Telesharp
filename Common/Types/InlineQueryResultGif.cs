@@ -6,7 +6,7 @@ namespace Telesharp.Common.Types {
 	/// <summary>
 	///		This object represents one result of an inline query. This is base class
 	/// </summary>
-	public class InlineQueryResultPhoto : InlineQueryResult {
+	public class InlineQueryResultGif : InlineQueryResult {
 		/// <summary>
 		/// 	Type of the result
 		/// </summary>

@@ -51,6 +51,8 @@ namespace Telesharp
 
 		public event BeginInvokeEventHandler BeginInvokeCommand = delegate { };
 
+		public event GotInlineQueryEventHandler GotInlineQuery = delegate { };
+
 		private void Work()
 		{
 			if (Settings.GetProfile && (Me = Methods.GetMe()) == null)
