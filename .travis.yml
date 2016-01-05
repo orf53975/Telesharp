@@ -1,7 +1,7 @@
 language: csharp
 solution: Telesharp.sln
 install:
-	nuget restore
-	mkdir Build
+    nuget restore
+    mkdir Build
 script:
-	mcs $(find . -name "*.cs") -debug -reference:./packages/Newtonsoft.Json.7.0.1/lib/net40/Newtonsoft.Json.dll -reference:System.Web -t:library -out:Build/Telesharp.dll
+    mcs $(find . -name "*.cs") -debug -reference:./packages/Newtonsoft.Json.7.0.1/lib/net40/Newtonsoft.Json.dll -reference:System.Web -t:library -out:Build/Telesharp.dll
