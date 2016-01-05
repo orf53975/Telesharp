@@ -36,23 +36,22 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
     <DebugSymbols>true</DebugSymbols>
+    <LangVersion>6</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RootNamespace>Telesharp</RootNamespace>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <Package>monodevelop</Package>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
@@ -103,6 +102,17 @@
     <Compile Include="Common\Types\Voice.cs" />
     <Compile Include="Telesharp.cs" />
     <Compile Include="TelesharpLogger.cs" />
+    <Compile Include="Common\Types\InlineQueryResult.cs" />
+    <Compile Include="Common\Types\InlineQueryResultPhoto.cs" />
+    <Compile Include="Common\Types\InlineQueryResultArticle.cs" />
+    <Compile Include="Common\Types\InlineQueryResultGif.cs" />
+    <Compile Include="Common\Types\InlineQueryResultMpeg4Gif.cs" />
+    <Compile Include="Common\Types\InlineQueryResultVideo.cs" />
+    <Compile Include="Common\Types\ChosenInlineResult.cs" />
+    <Compile Include="Common\BotTypes\GotChosenInlineResultEventArgs.cs" />
+    <Compile Include="Common\BotTypes\GotChosenInlineResultEventHandler.cs" />
+    <Compile Include="Common\BotTypes\GotInlineQueryEventArgs.cs" />
+    <Compile Include="Common\BotTypes\GotInlineQueryEventHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
