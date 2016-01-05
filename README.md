@@ -19,9 +19,9 @@ var zombieSounds = new []{"aggrh", "zzz", "grrrr", "arrr", "ogrrrh"};
 var Bot = new Bot(INSERT_YOUR_TOKEN_HERE);
 Bot.OnParseMessage += (o,e) =>
 {
-    Bot.Methods.SendMessage(e.Message.Chat, 
-        zombieSounds[(new Random(DateTime.Now.Millisecond))
-            .Next(0, zombieSounds.Length)]);    
+	Bot.Methods.SendMessage(e.Message.Chat,
+		zombieSounds[(new Random(DateTime.Now.Millisecond))
+			.Next(0, zombieSounds.Length)]);
 };
 Bot.Run();
 Bot.WaitToDie();
