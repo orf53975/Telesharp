@@ -11,7 +11,7 @@ namespace Telesharp.Common.BotTypes
 		/// <summary>
 		///	 GotChosenInlineResultEventArgs constructor
 		/// </summary>
-		/// <param name="inlineQuery"></param>
+		/// <param name="chosenResult"></param>
 		public GotChosenResultEventArgs(ChosenInlineResult chosenResult)
 		{
 			ChosenInlineResult = chosenResult;
