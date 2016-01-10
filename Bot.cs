@@ -73,9 +73,8 @@ namespace Telesharp
 					//Telesharp.Logger.Log(LogType.Warning, Settings.Name, "Can't get updates!");
 					continue; // We just continue
 				}
-				for (var index = 0; index < updates.Length; index++)
+				foreach(var upd in updates)
 				{
-					var upd = updates[index];
 					if (_stop) break;
 					if (upd.Message == null) {
 						if(upd.InlineQuery != null){
